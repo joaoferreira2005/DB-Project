@@ -1,0 +1,9 @@
+Alteradas relações entre classroom e building, building e schedule course e degree program, extra_activities e payments.
+
+Criação do script de criar tabelas com sql, com alterações efetuadas para termos tabelas com nomes de compreensão mais simples.
+
+Credenciais DB Projeto:
+    - nome: projdb;
+    - user: projuser;
+    - password: projuser;
+
