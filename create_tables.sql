@@ -204,6 +204,8 @@ CREATE TABLE course_pre_requisite (
 INSERT INTO person (cc, name, birth_date, email, username, password, district, staff_person_id) VALUES ('123456789', 'João Ferreira', '2005-07-20', 'joao@gmail.com','joaoferreira', '$2b$12$luc8InMgziPpjfYbnn5HWu74HM7dgdF/1McITu/dF9bsHRTDbKuLO', 'Coimbra', 1);
 INSERT INTO staff (role, person_id) VALUES ('Admin', 1);
 
+
+
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk1 FOREIGN KEY (staff_person_id) REFERENCES staff(person_id);
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk2 FOREIGN KEY (person_id) REFERENCES person(id);
 ALTER TABLE person ADD UNIQUE (cc, username);

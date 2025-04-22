@@ -23,14 +23,15 @@ import psycopg2
 import time
 import random
 import datetime
-import jwt
+import jwt # esta biblioteca é a pyjwt -> perguntar ao stor
 
 import bcrypt #nao sei se pudemos utilizar ou nao
+from decouple import config #pip install python-decouple
 
 from functools import wraps
 
 app = flask.Flask(__name__)
-app.config['JWT_SECRET_KEY'] = 'JIq4n01TnQMJJUOnGGOfAycSJGIwnmO6LxqnGyqSAJ1HIzA4MQNkFIEhpR5JZUO6ISESAH1SZHqCJRccLJgWrt=='
+app.config['JWT_SECRET_KEY'] = config("SECRET_KEY")
 
 StatusCodes = {
     'success': 200,
@@ -141,14 +142,13 @@ def add_departments():
 ##########################################################
 
 def db_connection():
-    db = psycopg2.connect(
-        user='projuser',
-        password='projuser',
-        host='127.0.0.1',
-        port='5432',
-        database='projdb'
+    db = psycopg2.connect( #Use of decouple library to hide credentials in the .py file
+        user=config("DB_USER"),
+        password=config("DB_PASSWORD"),
+        host=config("DB_HOST"),
+        port=config("DB_PORT"),
+        database=config("DB_NAME")
     )
-
     return db
 
 ##########################################################
@@ -158,36 +158,38 @@ def db_connection():
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = flask.request.headers.get('Authorization')
-        logger.info(f'token: {token}')
+        token = flask.request.headers.get('Authorization') #Get the token, extracted from the header in the authorization field
+        logger.info(f'token: {token}') #Displays the token to the console.
 
-        if not token:
+        if not token: #If no token received when this function is called, returns error.
             return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': 'Token is missing!', 'results': None})
 
         try:
-            # Remover "Bearer " se estiver presente
-            if token.startswith('Bearer '):
+            # Remove "Bearer " word if present
+            if token.startswith('Bearer '): #Removes Bearer Word.
                 token = token[7:]
 
-            # Decodificar o token
-            payload = jwt.decode(token, app.config['JWT_SECRET_KEY'], algorithms=["HS256"])
+            #Token decode
+            payload = jwt.decode(token, app.config['JWT_SECRET_KEY'], algorithms=["HS256"]) 
+            #Our token contains several informations about the user, like role, etc...
+            #We decode it so we can use it during every function.
 
-        except jwt.ExpiredSignatureError:
+        except jwt.ExpiredSignatureError: #If token is expired, returns this exception
             return flask.jsonify({
                 'status': StatusCodes['unauthorized'],
                 'errors': 'Token expired',
                 'results': None
             })
 
-        except jwt.InvalidTokenError:
+        except jwt.InvalidTokenError: #If token is invalid, return this exception
             return flask.jsonify({
                 'status': StatusCodes['unauthorized'],
                 'errors': 'Invalid token',
                 'results': None
             })
 
-        # Chamar a função original com o user_info
-        return f(user_info=payload, *args, **kwargs)
+        return f(user_info=payload, *args, **kwargs) #Returns original function, however with another argument, which is user_info, that contains
+        #token informations.
     return decorated 
 
 ##########################################################
@@ -195,36 +197,38 @@ def token_required(f):
 ##########################################################
 
 @app.route('/dbproj/user', methods=['PUT'])
-def login_user():
-    data = flask.request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-
-    if not username or not password:
+def login_user(): #Login endpoint
+    data = flask.request.get_json() #Get's the response coming from postman
+    username = data.get('username') #Get's the username sent by the user in Postman
+    password = data.get('password') #Get's the password sent by the user in Postman (not hashed)
+    conn = None #Sets conn to None, avoiding errors in finally.
+    
+    if not username or not password: #If no username or password in the postman body request.
         return flask.jsonify({
-            'status': StatusCodes['api_error'],
+            'status': StatusCodes['unauthorized'],
             'errors': 'Username and password are required',
             'results': None
         })
 
     try:
-        conn = db_connection()
+        conn = db_connection() #Makes connection with database and creates a cursor
         cur = conn.cursor()
 
         # Buscar utilizador
-        cur.execute("SELECT id, password FROM person WHERE username = %s", (username,))
-        person = cur.fetchone()
+        cur.execute("SELECT id, password FROM person WHERE username = %s", (username,)) #Try to get from the database and check if the username entered by the user
+        #matches what is in the database
+        person = cur.fetchone() #Returns the first line of the occurrence (always one, since username is unique) or None
 
-        if not person:
+        if not person: #if person not found:
             return flask.jsonify({
                 'status': StatusCodes['unauthorized'],
                 'errors': 'Invalid username or password',
                 'results': None
             })
 
-        person_id, hashed_password = person
+        person_id, hashed_password = person #Set the person_id and hash_password variables for better identification
 
-        # Verificar password com bcrypt
+        #Password verification with bcrypt (encodes the password given by user and verifies with the one in the database)
         if not bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
             return flask.jsonify({
                 'status': StatusCodes['unauthorized'],
@@ -232,7 +236,7 @@ def login_user():
                 'results': None
             })
 
-        # Verificar o tipo de utilizador
+        # Verify user type
         cur.execute("""
             SELECT 'staff' from staff WHERE person_id=%s
             UNION
@@ -241,7 +245,7 @@ def login_user():
             SELECT 'instructor' from instructor WHERE person_id=%s
         """, (person_id, person_id, person_id))
 
-        result = cur.fetchone()
+        result = cur.fetchone() #Fetch only one result
         if not result:
             return flask.jsonify({
                 'status': StatusCodes['unauthorized'],
@@ -251,7 +255,7 @@ def login_user():
 
         user_type = result[0]
 
-        # Gerar JWT
+        # Generates token using JWT
         token = jwt.encode({
             'person_id': person_id,
             'username': username,
@@ -261,7 +265,7 @@ def login_user():
 
         return flask.jsonify({
             'status': StatusCodes['success'],
-            'results': token
+            'results': token #Returns token to the user
         })
 
     except Exception as e:
@@ -272,18 +276,19 @@ def login_user():
         })
 
     finally:
-        if conn:
+        if conn: #Closes the connection
             conn.close()
         
 @app.route('/dbproj/register/student', methods=['POST'])
 @token_required
 def register_student(user_info):
-    if user_info["user_type"] != "staff":
+    if user_info["user_type"] != "staff": #If the logged user (token having user_type) is not a staff:
         return flask.jsonify({'status': StatusCodes['api_error'], 'errors': "You don't have permissions to perform this act.", 'results': None})
 
-    data = flask.request.get_json()
-    cc = str(data.get('cc'))
-    student_number = str(data.get('student_number'))
+    data = flask.request.get_json() #Get's the response given by the user in postman 
+    cc = str(data.get('cc')) #Transform cc camp to str so no problems with using numbers or string
+    student_number = str(data.get('student_number'))  #Transform student_number camp to str so no problems with using numbers or string
+    #Same to every other argument given
     email = str(data.get('email'))
     name = str(data.get('name'))
     birth_date = str(data.get('birth_date'))
@@ -291,24 +296,27 @@ def register_student(user_info):
     password = str(data.get('password'))
     district = str(data.get('district'))
     staff_id = user_info['person_id']
-    print(staff_id)
-    required = ["cc", "student_number", "name", "birth_date", "username", "email", "password", "district"]
-    missing = [field for field in required if not data.get(field)]
+    conn = None
+    required = ["cc", "student_number", "name", "birth_date", "username", "email", "password", "district"] #Required camps
+    missing = [field for field in required if not data.get(field)] #Had to use data.get again because using str() it converts to "None" string, so every time it enters
+    #the verification
     if missing:   
         return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'CC, student_number, name, birth_date, username, email, password and district are required', 'results': None})
     
     try:
-        conn = db_connection()
+        conn = db_connection() #Makes db connection
         cur = conn.cursor()
         
-        hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8') #Encrypt password to go into database
 
-        datetime.datetime.strptime(birth_date, '%Y-%m-%d')
+        datetime.datetime.strptime(birth_date, '%Y-%m-%d') #Verifies if date is in the right format, otherwise returns exception
 
 
         if verifyEmail(email) == False or verifyCC(cc) == False or verifyStudentNumber(student_number) == False or name.isdigit() == True:
+            #Made some verifications in every camp given by the used. In the future it may have
             return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid arguments. Try again', 'results': None})
 
+        #Inserts into the database the current values
         cur.execute("""
             INSERT INTO person (cc, name, birth_date, username, email, password, district, staff_person_id)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
@@ -323,15 +331,16 @@ def register_student(user_info):
             staff_id
         ))
 
-        cur.execute("SELECT id FROM person WHERE cc = %s", (cc,))
+        cur.execute("SELECT id FROM person WHERE cc = %s", (cc,)) #Gets the id from the person using cc which is unique
         person_id = cur.fetchone()[0]
 
+        #Insert into student table his student_number and other informations
         cur.execute("""
             INSERT INTO student_financial_account (person_id, student_number, balance, staff_person_id)
             VALUES (%s, %s, %s, %s)
         """, (person_id, student_number, 0.0, staff_id))
 
-        conn.commit()
+        conn.commit() #Commits the transaction
 
         return flask.jsonify({
             'status': StatusCodes['success'],
@@ -339,11 +348,11 @@ def register_student(user_info):
             'results': person_id
         })
 
-    except ValueError:
+    except ValueError: #In case of wrong date
         if conn:
             conn.rollback()
         return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid arguments. Try again', 'results': None})
-    except Exception as e:
+    except Exception as e: #Other exceptions
         if conn:
             conn.rollback()
         return flask.jsonify({
