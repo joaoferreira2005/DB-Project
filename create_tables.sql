@@ -352,3 +352,70 @@ CREATE TRIGGER trg_payment_enroll
 AFTER INSERT ON student_degree_program
 FOR EACH ROW
 EXECUTE FUNCTION trigger_payment_enroll();
+
+
+CREATE OR REPLACE FUNCTION process_activity_enrollment() RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_tax FLOAT;
+    v_transaction_id INTEGER;
+    v_balance FLOAT;
+    v_slots INTEGER;
+BEGIN
+    -- Buscar o valor da taxa da atividade e número de vagas disponíveis
+    SELECT tax, slots INTO v_tax, v_slots
+    FROM extra_activities
+    WHERE id = NEW.extra_activities_id
+    FOR UPDATE;
+    
+    -- Verificar se há vagas disponíveis
+    IF v_slots <= 0 THEN
+        RAISE EXCEPTION 'Não há vagas disponíveis para esta atividade';
+    END IF;
+    
+    -- Buscar o saldo atual do estudante 
+    SELECT balance INTO v_balance
+    FROM student_financial_account
+    WHERE person_id = NEW.student_id
+    FOR UPDATE;
+    
+    -- Verificar se o estudante tem saldo suficiente
+    IF v_balance < v_tax THEN
+        RAISE EXCEPTION 'Saldo insuficiente para se inscrever nesta atividade';
+    END IF;
+    
+    
+    -- Inserir na tabela payments
+    INSERT INTO payments (amount, type, description, student_id)
+    VALUES (
+        v_tax,
+        'Activity Payment',
+        'Enrollment in extra activity',
+        NEW.student_id
+    )
+    RETURNING transaction_id INTO v_transaction_id;
+    
+    -- Associar pagamento à atividade
+    INSERT INTO payments_extra_activities (transaction_id, extra_activities_id)
+    VALUES (v_transaction_id, NEW.extra_activities_id);
+    
+    -- Atualizar saldo do estudante
+    UPDATE student_financial_account
+    SET balance = balance - v_tax
+    WHERE person_id = NEW.student_id;
+    
+    -- Atualizar o número de vagas disponíveis na atividade
+    UPDATE extra_activities
+    SET slots = slots - 1
+    WHERE id = NEW.extra_activities_id;
+    
+    RETURN NEW;
+END;
+$$;
+
+-- Criar o trigger que combina verificação de saldo e processamento de pagamento
+CREATE OR REPLACE TRIGGER trg_process_activity_enrollment
+BEFORE INSERT ON student_extra_activities
+FOR EACH ROW
+EXECUTE FUNCTION process_activity_enrollment();

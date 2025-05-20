@@ -567,45 +567,49 @@ def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code 
 ##################################################################### Enroll in Activity ###########################################################
 @app.route('/dbproj/enroll_activity/<activity_id>', methods=['POST'])
 @token_required
-def enroll_activity(activity_id, user_info): # VER TMB , n testei isto
-    if user_info["user_type"] != "student": # Check if the user is a student
-        return flask.jsonify({'status': StatusCodes['api_error'], 'errors': "You don't have permissions to perform this act.", 'results': None})
+def enroll_activity(activity_id, user_info):
+    # Verificar se o usuário é um estudante
+    if user_info["user_type"] != "student":
+        return flask.jsonify({
+            'status': StatusCodes['unauthorized'], 
+            'errors': "You don't have permissions to perform this act.", 
+            'results': None
+        })
     
     data = flask.request.get_json() # Get's the response given by the user in postman
-    student_id = str(data.get('student_id')) # Get's the student_id sent by the user in Postma
+    student_id = str(data.get('student_id')) # Get's the student_id sent by the user in Postman
     
     try:
         conn = db_connection()
         conn.autocommit = False
         cur = conn.cursor()
-        # Verify the user is a student
-        cur.execute(
-            "SELECT person_id FROM student_financial_account WHERE person_id = %s",
-            (student_id)
-        )
-        student = cur.fetchone()
         
-        if not student:
-            response = {'status': StatusCodes['bad_request'], 'errors': 'Only students can enroll in activities'}
-            return flask.jsonify(response)
-        
-        # Check if the activity exists
+        # Verificar se a atividade existe
         cur.execute(
             "SELECT id, slots FROM extra_activities WHERE id = %s",
-            (activity_id)
+            (activity_id,) 
         )
         activity = cur.fetchone()
         
         if not activity:
-            response = {'status': StatusCodes['not_found'], 'errors': 'Activity not found'}
-            return flask.jsonify(response)
+            return flask.jsonify({
+                'status': StatusCodes['api_error'], 
+                'errors': 'Activity not found', 
+                'results': None
+            })
         
-        # Check if there are available slots
-        if activity[1] <= 0:
-            response = {'status': StatusCodes['bad_request'], 'errors': 'No available slots for this activity'}
-            return flask.jsonify(response)
+        # Verificar vagas disponíveis
+        cur.execute("SELECT COUNT(*) FROM student_extra_activities WHERE extra_activities_id = %s", (activity_id,))
+        current_enrolled = cur.fetchone()[0]
         
-        # Check if the student is already enrolled in this activity
+        if current_enrolled >= activity[1]:
+            return flask.jsonify({
+                'status': StatusCodes['api_error'], 
+                'errors': 'No available slots for this activity', 
+                'results': None
+            })
+        
+        # Verificar se o estudante já está inscrito nesta atividade
         cur.execute(
             "SELECT * FROM student_extra_activities WHERE student_id = %s AND extra_activities_id = %s",
             (student_id, activity_id)
@@ -613,32 +617,70 @@ def enroll_activity(activity_id, user_info): # VER TMB , n testei isto
         existing_enrollment = cur.fetchone()
         
         if existing_enrollment:
-            response = {'status': StatusCodes['bad_request'], 'errors': 'Student already enrolled in this activity'}
-            return flask.jsonify(response)
-
-        cur.execute("SELECT COUNT(*) FROM student_extra_activities WHERE extra_activities_id = %s", (activity_id,))
-        current_enrolled = cur.fetchone()[0]
-        if current_enrolled >= activity[1]:
-            return flask.jsonify({'status': StatusCodes['bad_request'], 'errors': 'No available slots for this activity'})
+            return flask.jsonify({
+                'status': StatusCodes['api_error'], 
+                'errors': 'Student already enrolled in this activity', 
+                'results': None
+            })
         
-        # Insert the student-activity relationship
+        # Inserir a relação estudante-atividade
+        # O trigger process_activity_enrollment será executado automaticamente aqui
         cur.execute(
             "INSERT INTO student_extra_activities (student_id, extra_activities_id) VALUES (%s, %s)",
             (student_id, activity_id)
         )
         
-        # Update the available slots for the activity
-        cur.execute(
-            "UPDATE extra_activities SET slots = slots - 1 WHERE id = %s",
-            (activity_id)
-        )
         
-        # Commit the transaction
+        # Buscar a transação gerada para retornar ao usuário
+        cur.execute("""
+            SELECT transaction_id 
+            FROM payments p
+            JOIN payments_extra_activities pea ON p.transaction_id = pea.transaction_id
+            WHERE p.student_id = %s AND pea.extra_activities_id = %s
+            ORDER BY p.transaction_id DESC
+            LIMIT 1
+        """, (student_id, activity_id))
+        
+        transaction_result = cur.fetchone()
+        transaction_id = transaction_result[0] if transaction_result else None
+        
+        # Confirmar a transação
         conn.commit()
         
-        response = {'status': StatusCodes['success'], 'errors': None}
-        return flask.jsonify(response)
+        return flask.jsonify({
+            'status': StatusCodes['success'],
+            'errors': None,
+            'results': {
+                'student_id': student_id,
+                'activity_id': activity_id,
+                'transaction_id': transaction_id
+            }
+        })
         
+    except psycopg2.DatabaseError as e:
+        if conn:
+            conn.rollback()
+            
+        # Verificar se é uma exceção lançada pelo nosso trigger
+        error_message = str(e)
+        if "Saldo insuficiente" in error_message:
+            return flask.jsonify({
+                'status': StatusCodes['api_error'],
+                'errors': 'Saldo insuficiente para se inscrever nesta atividade',
+                'results': None
+            })
+        elif "Não há vagas disponíveis" in error_message:
+            return flask.jsonify({
+                'status': StatusCodes['api_error'],
+                'errors': 'Não há vagas disponíveis para esta atividade',
+                'results': None
+            })
+        else:
+            return flask.jsonify({
+                'status': StatusCodes['internal_error'],
+                'errors': error_message,
+                'results': None
+            })
     except Exception as e:
         if conn:
             conn.rollback()
@@ -655,15 +697,85 @@ def enroll_activity(activity_id, user_info): # VER TMB , n testei isto
 ##################################################################### Enroll in Course Edition ###########################################################
 @app.route('/dbproj/enroll_course_edition/<course_edition_id>', methods=['POST'])
 @token_required
-def enroll_course_edition(course_edition_id):
+def enroll_course_edition(course_edition_id, user_info):
+    if user_info["user_type"] != "staff":
+        return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
+
     data = flask.request.get_json()
+    student_id = data.get('student_id')
     classes = data.get('classes', [])
 
     if not classes:
         return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'At least one class ID is required', 'results': None})
     
-    response = {'status': StatusCodes['success'], 'errors': None}
-    return flask.jsonify(response)
+    try:
+        conn = db_connection()
+        conn.autocommit = False
+        cur = conn.cursor()
+
+        # Verifica se a edição existe
+        cur.execute("SELECT course_code, capacity FROM edition WHERE edition_id = %s", (course_edition_id,))
+        edition = cur.fetchone()
+        if not edition:
+            conn.rollback()
+            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Edition not found.', 'results': None})
+
+        course_code, capacity = edition
+
+        # Verifica se o aluno já está inscrito nesta edição
+        cur.execute("SELECT 1 FROM enrollment WHERE edition_id = %s AND student_id = %s", (course_edition_id, student_id))
+        if cur.fetchone():
+            conn.rollback()
+            return flask.jsonify({'status': StatusCodes['conflict'], 'errors': 'Student already enrolled in this course edition.', 'results': None})
+            
+        # Verifica se a edição ainda tem capacidade
+        cur.execute("SELECT COUNT(*) FROM enrollment WHERE edition_id = %s", (course_edition_id,))
+        current_enrollment = cur.fetchone()[0]
+
+        if current_enrollment >= capacity:
+            conn.rollback()
+            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Course edition is full.', 'results': None})
+        
+        # Verifica cada turma indicada
+        for class_id in classes:
+            # Verifica se a turma pertence à edição
+            cur.execute("SELECT 1 FROM class WHERE class_id = %s AND edition_id = %s", (class_id, course_edition_id))
+            if not cur.fetchone():
+                conn.rollback()
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Class {class_id} does not belong to the specified edition.', 'results': None})
+        
+        # Obter a capacidade da sala da turma
+        cur.execute("SELECT cr.capacity FROM classroom cr JOIN schedule s ON cr.schedule_id = s.id WHERE s.class_id = %s AND cr.id = %s", (class_id, class_id))
+        classroom_row = cur.fetchone()
+        if not classroom_row:
+            conn.rollback()
+            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'No classroom assigned to class {class_id}.', 'results': None})
+
+        classroom_capacity = classroom_row[0]
+
+        # Contar número de alunos inscritos nesta turma
+        cur.execute("SELECT COUNT(*) FROM class_enrollment WHERE class_id = %s", (class_id,))
+        enrolled_in_class = cur.fetchone()[0]
+
+        if enrolled_in_class >= classroom_capacity:
+            conn.rollback()
+            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Class {class_id} is full.', 'results': None})
+        
+        response = {'status': StatusCodes['success'], 'errors': None}
+        conn.rollback()  # rollback temporário mudar para commit quando acabar!
+        return flask.jsonify(response)
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return flask.jsonify({'status': StatusCodes['server_error'], 'errors': str(e), 'results': None})
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+        
+        
 
 ####################################################################### Submit Grades ####################################################################
 @app.route('/dbproj/submit_grades/<course_edition_id>', methods=['POST'])
