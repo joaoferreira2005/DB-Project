@@ -745,7 +745,12 @@ def enroll_course_edition(course_edition_id, user_info):
                 return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Class {class_id} does not belong to the specified edition.', 'results': None})
         
         # Obter a capacidade da sala da turma
-        cur.execute("SELECT cr.capacity FROM classroom cr JOIN schedule s ON cr.schedule_id = s.id WHERE s.class_id = %s AND cr.id = %s", (class_id, class_id))
+        cur.execute("""
+            SELECT cr.capacity
+            FROM classroom cr
+            JOIN schedule s ON cr.schedule_id = s.id
+            WHERE s.class_id = %s
+        """, (class_id,))
         classroom_row = cur.fetchone()
         if not classroom_row:
             conn.rollback()
@@ -754,16 +759,26 @@ def enroll_course_edition(course_edition_id, user_info):
         classroom_capacity = classroom_row[0]
 
         # Contar número de alunos inscritos nesta turma
-        cur.execute("SELECT COUNT(*) FROM class_enrollment WHERE class_id = %s", (class_id,))
+        cur.execute("SELECT COUNT(*) FROM student_classt WHERE class_id = %s", (class_id,))
         enrolled_in_class = cur.fetchone()[0]
 
         if enrolled_in_class >= classroom_capacity:
             conn.rollback()
             return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Class {class_id} is full.', 'results': None})
         
+        # Inscrição nas turmas
+        for class_id in classes:
+            cur.execute("INSERT INTO student_class (student_id, class_id) VALUES (%s, %s)", (student_id, class_id))
+
+        # Garantir que o aluno está associado ao curso (student_course)
+        cur.execute("SELECT 1 FROM student_course WHERE student_id = %s AND course_code = %s", (student_id, course_code))
+        if not cur.fetchone():
+            cur.execute("INSERT INTO student_course (student_id, course_code) VALUES (%s, %s)", (student_id, course_code))
+        
         response = {'status': StatusCodes['success'], 'errors': None}
-        conn.rollback()  # rollback temporário mudar para commit quando acabar!
+        conn.commit()
         return flask.jsonify(response)
+    
 
     except Exception as e:
         if conn:
