@@ -1566,3 +1566,203 @@ INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 448-746-482
 INFO:werkzeug:127.0.0.1 - - [20/May/2025 19:40:55] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 19:41:47] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjUsInVzZXJuYW1lIjoiTWFuYW8iLCJ1c2VyX3R5cGUiOiJzdHVkZW50IiwiZXhwIjoxNzQ3NzczNzA3fQ.NvecxTdKOHySV6rj0JMpkmvFAEEonp9RC4pYoX97xMI
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 19:42:15] "POST /dbproj/enroll_activity/1 HTTP/1.1" 200 -
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 22:17:21] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjUsInVzZXJuYW1lIjoiTWFuYW8iLCJ1c2VyX3R5cGUiOiJzdHVkZW50IiwiZXhwIjoxNzQ3NzgzMDQxfQ.f88NEx0CUmwQW69aMaBV_MzV-XL6iGv79dK7hfIjTRY
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 22:19:02] "POST /dbproj/enroll_activity/1 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:00:13] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjUsInVzZXJuYW1lIjoiTWFuYW8iLCJ1c2VyX3R5cGUiOiJzdHVkZW50IiwiZXhwIjoxNzQ3NzgzMDQxfQ.f88NEx0CUmwQW69aMaBV_MzV-XL6iGv79dK7hfIjTRY
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:00:18] "POST /dbproj/enroll_activity/1 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:05:33] "[33mPOST /dbproj/enroll_activity/1 HTTP/1.1[0m" 404 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjUsInVzZXJuYW1lIjoiTWFuYW8iLCJ1c2VyX3R5cGUiOiJzdHVkZW50IiwiZXhwIjoxNzQ3NzgzMDQxfQ.f88NEx0CUmwQW69aMaBV_MzV-XL6iGv79dK7hfIjTRY
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:05:51] "POST /dbproj/enroll_activity HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjUsInVzZXJuYW1lIjoiTWFuYW8iLCJ1c2VyX3R5cGUiOiJzdHVkZW50IiwiZXhwIjoxNzQ3NzgzMDQxfQ.f88NEx0CUmwQW69aMaBV_MzV-XL6iGv79dK7hfIjTRY
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:06:42] "POST /dbproj/enroll_activity HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjUsInVzZXJuYW1lIjoiTWFuYW8iLCJ1c2VyX3R5cGUiOiJzdHVkZW50IiwiZXhwIjoxNzQ3NzgzMDQxfQ.f88NEx0CUmwQW69aMaBV_MzV-XL6iGv79dK7hfIjTRY
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:11:43] "POST /dbproj/enroll_activity HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjUsInVzZXJuYW1lIjoiTWFuYW8iLCJ1c2VyX3R5cGUiOiJzdHVkZW50IiwiZXhwIjoxNzQ3NzgzMDQxfQ.f88NEx0CUmwQW69aMaBV_MzV-XL6iGv79dK7hfIjTRY
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:15:50] "POST /dbproj/enroll_activity HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjUsInVzZXJuYW1lIjoiTWFuYW8iLCJ1c2VyX3R5cGUiOiJzdHVkZW50IiwiZXhwIjoxNzQ3NzgzMDQxfQ.f88NEx0CUmwQW69aMaBV_MzV-XL6iGv79dK7hfIjTRY
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:18:23] "POST /dbproj/enroll_course_edition/1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:19:23] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:19:40] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:19:44] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDc3ODY3ODR9.2BI_HoJWjwDC8eGuo_vgXUq8TBzJAhLb-gwYXnQebKk
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:22:21] "[35m[1mPOST /dbproj/enroll_course_edition/1 HTTP/1.1[0m" 500 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDc3ODY3ODR9.2BI_HoJWjwDC8eGuo_vgXUq8TBzJAhLb-gwYXnQebKk
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:23:36] "[35m[1mPOST /dbproj/enroll_course_edition/1 HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDc3ODY3ODR9.2BI_HoJWjwDC8eGuo_vgXUq8TBzJAhLb-gwYXnQebKk
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:26:35] "POST /dbproj/enroll_course_edition/1 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDc3ODY3ODR9.2BI_HoJWjwDC8eGuo_vgXUq8TBzJAhLb-gwYXnQebKk
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:29:28] "[31m[1mPOST /dbproj/enroll_course_edition/1 HTTP/1.1[0m" 400 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug: * Detected change in 'c:\\Users\\Rodrigo Manao\\Documents\\UC\\2 ano\\2 Semestre\\BD\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 23:56:02] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 448-746-482

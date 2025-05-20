@@ -261,6 +261,12 @@ INSERT INTO classroom (capacity, schedule_id, building_id) VALUES
 (30, 2, 1),
 (60, 3, 2);  -- Bloco B
 
+-- === Atividades Extra ===
+INSERT INTO extra_activities (name, tax, slots) VALUES
+('Workshop de Python', 50.0, 20),
+('Seminário de IA', 30.0, 15),
+('Visita a Data Center', 20.0, 10);
+
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk1 FOREIGN KEY (staff_person_id) REFERENCES staff(person_id);
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk2 FOREIGN KEY (person_id) REFERENCES person(id);
 ALTER TABLE person ADD UNIQUE (cc, username);
