@@ -1317,3 +1317,109 @@ INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiO
 INFO:werkzeug:127.0.0.1 - - [29/Apr/2025 23:57:28] "POST /dbproj/enroll_degree/2 HTTP/1.1" 200 -
 INFO:logger:API stubs online: http://127.0.0.1:8080
 INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug:127.0.0.1 - - [06/May/2025 21:38:30] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDUwODA2MTR9.k-9eXm6Srb9iEAwasj23A497bmQjsD7uUFzlJDtf5SY
+INFO:werkzeug:127.0.0.1 - - [06/May/2025 21:38:39] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDY1NzExMTB9.GSX-Qab8z60CfLrLcaiHNbrRYnwTxvgZMzrMuD8quzM
+INFO:werkzeug:127.0.0.1 - - [06/May/2025 21:39:02] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDY1NzExMTB9.GSX-Qab8z60CfLrLcaiHNbrRYnwTxvgZMzrMuD8quzM
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 11:25:44] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 11:25:50] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDc3NDM5NTB9.iFimZpmr1dUYV7kPw8J37GyS7OkQZhU873yiEwHrJyA
+INFO:werkzeug:127.0.0.1 - - [20/May/2025 11:26:11] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat

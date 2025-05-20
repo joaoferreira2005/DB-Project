@@ -201,10 +201,65 @@ CREATE TABLE course_pre_requisite (
 	PRIMARY KEY(course_code,course_code_prerequisite)
 );
 
+-- === Primeiro staff === --
 INSERT INTO person (cc, name, birth_date, email, username, password, district, staff_person_id) VALUES ('123456789', 'João Ferreira', '2005-07-20', 'joao@gmail.com','joaoferreira', '$2b$12$luc8InMgziPpjfYbnn5HWu74HM7dgdF/1McITu/dF9bsHRTDbKuLO', 'Coimbra', 1);
 INSERT INTO staff (role, person_id) VALUES ('Admin', 1);
 
+-- === Instrutores (Person + Instructor + Coordinator) ===
+-- Não esquecer de encriptar a password
+INSERT INTO person (cc, name, birth_date, email, username, password, district, staff_person_id) VALUES
+('812385869', 'Ana Costa', '1980-05-12', 'ana.costa@dei.uc.pt', 'ana_costa', 'pw1', 'Lisboa', 1),
+('283472732', 'Carlos Silva', '1975-11-30', 'carlos.silva@dei.uc.pt', 'carlos_silva', 'pw2', 'Porto', 1),
+('012395345', 'Marta Ribeiro', '1983-09-18', 'marta.ribeiro@dei.uc.pt', 'marta_ribeiro', 'pw3', 'Coimbra', 1);
 
+INSERT INTO instructor (person_id, func_number) VALUES
+(2, '1992039039'),
+(3, '2005928395'),
+(4, '2020000145');
+
+INSERT INTO coordinator_instructor (investigation, instructor_person_id) VALUES
+(TRUE, 2),
+(FALSE, 3);
+
+-- === Cursos ===
+INSERT INTO course (course_code, name, description) VALUES
+(1001, 'Bases de Dados', 'Cadeira de introdução a bases de dados relacionais'),
+(1002, 'Redes de Comunicação', 'Cadeira sobre protocolos, redes e sistemas distribuídos'),
+(1003, 'Tecnologia da Informática', 'Cadeira de introdução à informática e programação');
+
+-- === Degree Programs ===
+INSERT INTO degree_program (id, type, name, tax, credits, slots, course_code) VALUES
+(1, 'Licenciatura', 'Engenharia Informática', 697.5, 180, 60, 1001),
+(2, 'Mestrado', 'Engenharia de Redes', 850.0, 120, 30, 1002),
+(3, 'Licenciatura', 'Engenharia de Computadores', 697.5, 180, 50, 1003);
+
+INSERT INTO edition (ed_year, ed_month, capacity, coordinator_id, course_code) VALUES
+(2024, 9, 30, 2, 1001),
+(2024, 9, 25, 3, 1002);
+
+-- === Edifícios ===
+INSERT INTO buildings (location, dep_name) VALUES
+('Polo II - UC', 'DEI'),
+('Polo II - UC', 'DEEC');
+
+-- === Aulas (class) ===
+INSERT INTO class (type, instructor_person_id, edition_id) VALUES
+('T', 2, 1),  -- Teórica da edição 1 (Bases de Dados), Ana Costa
+('PL', 3, 1), -- Prática da edição 1, Carlos Silva
+('T', 3, 2);  -- Teórica da edição 2 (Redes), Carlos Silva
+
+-- === Horários (schedule) ===
+INSERT INTO schedule (start_time, duration, class_id) VALUES
+('2024-09-15 09:00:00', 90, 1),
+('2024-09-16 14:00:00', 120, 2),
+('2024-09-17 10:00:00', 90, 3);
+
+-- === Salas ===
+-- Pode ser util adicionar o nome à sala, para ser tipo "A.5.1"
+INSERT INTO classroom (capacity, schedule_id, building_id) VALUES
+(40, 1, 1),  -- Bloco A
+(30, 2, 1),
+(60, 3, 2);  -- Bloco B
 
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk1 FOREIGN KEY (staff_person_id) REFERENCES staff(person_id);
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk2 FOREIGN KEY (person_id) REFERENCES person(id);
@@ -250,3 +305,50 @@ ALTER TABLE student_course ADD CONSTRAINT student_course_fk1 FOREIGN KEY (studen
 ALTER TABLE student_course ADD CONSTRAINT student_course_fk2 FOREIGN KEY (course_code) REFERENCES course(course_code);
 ALTER TABLE course_pre_requisite ADD CONSTRAINT course_pre_requisite_fk1 FOREIGN KEY (course_code) REFERENCES course(course_code);
 ALTER TABLE course_pre_requisite ADD CONSTRAINT course_pre_requisite_fk2 FOREIGN KEY (course_code_prerequisite) REFERENCES course(course_code);
+
+CREATE OR REPLACE FUNCTION trigger_payment_enroll() RETURNS TRIGGER
+LANGUAGE plpgsql
+as $$
+DECLARE
+    v_tax FLOAT;
+	s_balance FLOAT;
+	v_transaction_id INTEGER;
+BEGIN
+    -- Buscar o valor da taxa do degree program
+    SELECT tax INTO v_tax
+    FROM degree_program
+    WHERE id = NEW.degree_program_id;
+
+	SELECT balance INTO s_balance
+    FROM student_financial_account
+    WHERE person_id = NEW.student_id
+    FOR UPDATE;
+
+    -- Inserir na tabela payments
+    INSERT INTO payments (amount, type, description, student_id)
+    VALUES (
+        v_tax,
+        'Degree Program Payment',
+        'Enrollment in degree program',
+        NEW.student_id
+    )
+	RETURNING transaction_id INTO v_transaction_id;
+
+	 -- Associar pagamento ao degree
+    INSERT INTO degree_program_payments (degree_program_id, transaction_id)
+    VALUES (NEW.degree_program_id, v_transaction_id);
+
+	-- Atualizar saldo do estudante
+    UPDATE student_financial_account
+    SET balance = balance - v_tax
+    WHERE person_id = NEW.student_id;
+
+
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trg_payment_enroll
+AFTER INSERT ON student_degree_program
+FOR EACH ROW
+EXECUTE FUNCTION trigger_payment_enroll();

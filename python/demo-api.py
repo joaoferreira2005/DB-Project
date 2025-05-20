@@ -40,103 +40,6 @@ StatusCodes = {
     'unauthorized': 401
 }
 
-
-##########################################################
-## DEMO ENDPOINTS
-## (the endpoints get_all_departments and add_departments serve only as examples!)
-##########################################################
-
-##
-## Demo GET
-##
-## Obtain all departments in JSON format
-##
-
-@app.route('/departments/', methods=['GET'])
-def get_all_departments():
-    logger.info('GET /departments')
-
-    conn = db_connection()
-    cur = conn.cursor()
-
-    try:
-        cur.execute('SELECT ndep, nome, local FROM dep')
-        rows = cur.fetchall()
-
-        logger.debug('GET /departments - parse')
-        Results = []
-        for row in rows:
-            logger.debug(row)
-            content = {'ndep': int(row[0]), 'nome': row[1], 'localidade': row[2]}
-            Results.append(content)  # appending to the payload to be returned
-
-        response = {'status': StatusCodes['success'], 'results': Results}
-
-    except (Exception, psycopg2.DatabaseError) as error:
-        logger.error(f'GET /departments - error: {error}')
-        response = {'status': StatusCodes['internal_error'], 'errors': str(error)}
-
-    finally:
-        if conn is not None:
-            conn.close()
-
-    return flask.jsonify(response)
-
-##
-## Demo POST
-##
-## Add a new department in a JSON payload
-##
-
-@app.route('/departments/', methods=['POST'])
-def add_departments():
-    logger.info('POST /departments')
-    payload = flask.request.get_json()
-
-    conn = db_connection()
-    cur = conn.cursor()
-
-    logger.debug(f'POST /departments - payload: {payload}')
-
-    # do not forget to validate every argument, e.g.,:
-    if 'ndep' not in payload:
-        response = {'status': StatusCodes['api_error'], 'results': 'ndep value not in payload'}
-        return flask.jsonify(response)
-
-    # parameterized queries, good for security and performance
-    statement = 'INSERT INTO dep (ndep, nome, local) VALUES (%s, %s, %s)'
-    values = (payload['ndep'], payload['nome'], payload['localidade'])
-
-    try:
-        cur.execute(statement, values)
-
-        # commit the transaction
-        conn.commit()
-        response = {'status': StatusCodes['success'], 'results': f'Inserted dep {payload["ndep"]}'}
-
-    except (Exception, psycopg2.DatabaseError) as error:
-        logger.error(f'POST /departments - error: {error}')
-        response = {'status': StatusCodes['internal_error'], 'errors': str(error)}
-
-        # an error occurred, rollback
-        conn.rollback()
-
-    finally:
-        if conn is not None:
-            conn.close()
-
-    return flask.jsonify(response)
-
-##########################################################
-## DEMO ENDPOINTS END
-##########################################################
-
-
-
-
-
-
-
 ##########################################################
 ## DATABASE ACCESS
 ##########################################################
@@ -285,7 +188,7 @@ def login_user(): #Login endpoint
 @token_required
 def register_student(user_info):
     if user_info["user_type"] != "staff": #If the logged user (token having user_type) is not a staff:
-        return flask.jsonify({'status': StatusCodes['api_error'], 'errors': "You don't have permissions to perform this act.", 'results': None})
+        return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
 
     data = flask.request.get_json() #Get's the response given by the user in postman 
     cc = str(data.get('cc')) #Transform cc camp to str so no problems with using numbers or string
@@ -560,7 +463,7 @@ def register_instructor(user_info):
 @token_required
 def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code de 101, degree ID 2 
     if user_info["user_type"] != "staff":
-        return flask.jsonify({'status': StatusCodes['api_error'], 'errors': "You don't have permissions to perform this act.", 'results': None})
+        return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
 
     data = flask.request.get_json() # Get's the response given by the user in postman
     student_id = str(data.get('student_id')) # Get's the student_id sent by the user in Postman
@@ -571,14 +474,15 @@ def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code 
     
     try:
         conn = db_connection()
+        conn.autocommit = False
         cur = conn.cursor()
 
         # Verifica se o degree program existe
-        cur.execute("SELECT tax, course_code FROM degree_program WHERE id = %s", (degree_id))
+        cur.execute("SELECT course_code FROM degree_program WHERE id = %s", (degree_id,))
         row = cur.fetchone()
         if not row:
             return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Degree program not found.', 'results': None})
-        tax, course_code = row
+        course_code = row[0]
 
         # Seleciona a próxima edição disponível do curso
         cur.execute("""
@@ -587,6 +491,7 @@ def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code 
             WHERE course_code = %s
             ORDER BY ed_year DESC, ed_month DESC
             LIMIT 1
+            FOR UPDATE
         """, (course_code,))
         ed_row = cur.fetchone()
         if not ed_row:
@@ -611,31 +516,31 @@ def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code 
         if current_enrollments >= capacity:
             return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'No available slots in this edition.', 'results': None})
 
+        # Stores the student enrolled in the degree program
+        cur.execute("""
+            INSERT INTO student_degree_program (student_id, degree_program_id) 
+                    values (%s, %s)
+                    """, (student_id, degree_id))
+        
         # Enroll student
         cur.execute("""
             INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id, staff_id)
             VALUES (%s, %s, %s, %s, %s, %s)
         """, (enrollment_date, True, degree_id, edition_id, student_id, user_info['person_id']))
 
-        # Cria pagamento
         cur.execute("""
-            INSERT INTO payments (amount, type, description, student_id)
-            VALUES (%s, %s, %s, %s) RETURNING transaction_id
-        """, (tax, 'Tuition', f'Degree enrollment fee for degree {degree_id}', student_id))
-        transaction_id = cur.fetchone()[0]
-
-        # Liga o pagamento ao programa
-        cur.execute("""
-            INSERT INTO degree_program_payments (degree_program_id, transaction_id)
-            VALUES (%s, %s)
-        """, (degree_id, transaction_id))
-
-        # Atualiza saldo do aluno
-        cur.execute("""
-            UPDATE student_financial_account
-            SET balance = balance - %s
-            WHERE person_id = %s
-        """, (tax, student_id))
+            SELECT transaction_id
+            FROM payments
+            WHERE student_id = %s
+            ORDER BY transaction_id DESC
+            LIMIT 1
+        """, (student_id,))
+        row = cur.fetchone()
+        
+        if not row:
+            conn.rollback()
+            return flask.jsonify({'status': StatusCodes['internal_error'], 'errors': 'Problem registering payment. Aborting.', 'results': None})
+        transaction_id = row[0]
 
         conn.commit()
 
@@ -671,6 +576,7 @@ def enroll_activity(activity_id, user_info): # VER TMB , n testei isto
     
     try:
         conn = db_connection()
+        conn.autocommit = False
         cur = conn.cursor()
         # Verify the user is a student
         cur.execute(
