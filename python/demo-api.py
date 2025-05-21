@@ -806,7 +806,7 @@ def enroll_course_edition(course_edition_id, user_info):
 @token_required
 def submit_grades(course_edition_id, user_info):
 
-    if user_info["user_type"] != "instructor":
+    if user_info["person_id"] != "coordinator":
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
 
     data = flask.request.get_json()
@@ -835,7 +835,7 @@ def submit_grades(course_edition_id, user_info):
             return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Course edition not found.', 'results': None})
         coordinator_id = row[0]
 
-        # TODO Inserir no grade_log
+        
         # Inserir cada nota
         for entry in grades:
             student_id = entry.get('student_id')
@@ -855,7 +855,6 @@ def submit_grades(course_edition_id, user_info):
             cur.execute("""
                 INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
                 VALUES (%s, %s, %s, %s, %s)
-                ON CONFLICT DO NOTHING
             """, (grade, period, course_edition_id, student_id, coordinator_id))
     
         response = {'status': StatusCodes['success'], 'errors': None}
@@ -875,8 +874,15 @@ def submit_grades(course_edition_id, user_info):
 ################################################################## Get Student Details ##############################################################
 @app.route('/dbproj/student_details/<student_id>', methods=['GET'])
 @token_required
-def student_details(student_id):
-
+def student_details(student_id, user_info):
+    
+    print(type(user_info["person_id"]))
+    print(user_info["user_type"])
+        
+    if user_info["person_id"] != int(student_id): 
+        if user_info["user_type"] != "staff":
+            return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
+    
     try:
         conn = db_connection()
         cur = conn.cursor()
@@ -921,7 +927,13 @@ def student_details(student_id):
 ############################################################# Get Degree Details ##############################################################
 @app.route('/dbproj/degree_details/<degree_id>', methods=['GET'])
 @token_required
-def degree_details(degree_id):
+def degree_details(user_info,degree_id):
+    if user_info["user_type"] != "staff":
+        return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
+    if not degree_id:
+        return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Degree ID is required', 'results': None})
+
+    
     try:
         conn = db_connection()
         cur = conn.cursor()
@@ -1112,9 +1124,11 @@ def verifyInstructor(instructor_type, phd_student, investigator):
     types = ['coordinator', 'assistant']
     responses = ['true', 'false']
     if instructor_type.lower() in types:
+        # Se for coordinator tem de ser investigator 
         if instructor_type.lower() == "coordinator":
             if str(investigator).lower() in responses:
                 return True
+        # Se for assistant tem de ser phd_student 
         elif instructor_type.lower() == "assistant":
             if str(phd_student).lower() in responses:
                 return True

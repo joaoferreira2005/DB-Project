@@ -425,3 +425,37 @@ CREATE OR REPLACE TRIGGER trg_process_activity_enrollment
 BEFORE INSERT ON student_extra_activities
 FOR EACH ROW
 EXECUTE FUNCTION process_activity_enrollment();
+
+
+CREATE OR REPLACE FUNCTION update_grade_log() RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    avg_grade FLOAT;
+    deg_prog_id INTEGER;
+BEGIN
+    -- Obter a média das notas do aluno nesta edição
+    SELECT AVG(e.grade)
+    INTO avg_grade
+    FROM evaluation e
+    WHERE e.edition_id = NEW.edition_id AND e.student_id = NEW.student_id;
+
+    -- Obter o degree do aluno
+    SELECT sdp.degree_program_id
+	INTO deg_prog_id
+	FROM student_degree_program sdp
+	WHERE sdp.student_id = NEW.student_id;
+
+    -- Atualiza ou insere no grade_log
+    INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+    VALUES (ROUND(avg_grade), deg_prog_id, NEW.edition_id, NEW.student_id)
+
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_update_grade_log
+AFTER INSERT ON evaluation
+FOR EACH ROW
+EXECUTE FUNCTION update_grade_log();
+
