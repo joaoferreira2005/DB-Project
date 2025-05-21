@@ -106,7 +106,7 @@ def login_user(): #Login endpoint
     username = data.get('username') #Get's the username sent by the user in Postman
     password = data.get('password') #Get's the password sent by the user in Postman (not hashed)
     conn = None #Sets conn to None, avoiding errors in finally.
-    
+
     if not username or not password: #If no username or password in the postman body request.
         return flask.jsonify({
             'status': StatusCodes['unauthorized'],
@@ -414,7 +414,7 @@ def register_instructor(user_info):
             staff_id
         ))
 
-        cur.execute("SELECT id FROM person WHERE cc = %s", (cc,))
+        cur.execute("SELECT id FROM person WHERE cc = %s and email = %s", (cc,email))
         person_id = cur.fetchone()[0]
 
         cur.execute("""
@@ -565,9 +565,9 @@ def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code 
 
 
 ##################################################################### Enroll in Activity ###########################################################
-@app.route('/dbproj/enroll_activity', methods=['POST'])  # Removendo o parâmetro da URL
+@app.route('/dbproj/enroll_activity/<activity_id>', methods=['POST'])  # Removendo o parâmetro da URL
 @token_required
-def enroll_activity(user_info):  
+def enroll_activity(activity_id,user_info):  
     # Verificar se o usuário é um estudante
     if user_info["user_type"] != "student":
         return flask.jsonify({
@@ -578,7 +578,6 @@ def enroll_activity(user_info):
     
     data = flask.request.get_json()
     student_id = str(data.get('student_id'))
-    activity_id = str(data.get('activity_id')) 
     
     # Verificar se ambos os IDs foram fornecidos
     if not student_id or not activity_id:
@@ -642,11 +641,11 @@ def enroll_activity(user_info):
         
         # Buscar a transação gerada para retornar ao usuário
         cur.execute("""
-            SELECT p.transaction_id 
-            FROM payments p
-            JOIN payments_extra_activities pea ON p.transaction_id = pea.transaction_id
+            SELECT pea.transaction_id
+            FROM payments_extra_activities pea
+            JOIN payments p ON pea.transaction_id = p.transaction_id
             WHERE p.student_id = %s AND pea.extra_activities_id = %s
-            ORDER BY p.transaction_id DESC
+            ORDER BY pea.transaction_id DESC
             LIMIT 1
         """, (student_id, activity_id))
         
@@ -707,13 +706,17 @@ def enroll_activity(user_info):
 @app.route('/dbproj/enroll_course_edition/<course_edition_id>', methods=['POST'])
 @token_required
 def enroll_course_edition(course_edition_id, user_info):
-    if user_info["user_type"] != "staff":
+    if user_info["user_type"] != "student":
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
+    
 
     data = flask.request.get_json()
     student_id = data.get('student_id')
     classes = data.get('classes', [])
 
+    if user_info["person_id"] != int(student_id): 
+        return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
+    
     if not classes:
         return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'At least one class ID is required', 'results': None})
     
@@ -804,14 +807,15 @@ def enroll_course_edition(course_edition_id, user_info):
 ####################################################################### Submit Grades ####################################################################
 @app.route('/dbproj/submit_grades/<course_edition_id>', methods=['POST'])
 @token_required
-def submit_grades(course_edition_id, user_info):
-
-    if user_info["person_id"] != "coordinator":
+def submit_grades(course_edition_id, user_info): # TODO : TEM DE SER UM COORDINATOR
+    
+    if user_info["user_type"] != "instructor":
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
 
     data = flask.request.get_json()
     period = data.get('period')
     grades = data.get('grades', [])
+    
 
     if not period or not grades:
         return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Evaluation period and grades are required', 'results': None})
@@ -1092,9 +1096,170 @@ def monthly_report():
 
 @app.route('/dbproj/delete_details/<student_id>', methods=['DELETE'])
 @token_required
-def delete_student(student_id):
-    response = {'status': StatusCodes['success'], 'errors': None}
-    return flask.jsonify(response)
+def delete_student(student_id, user_info): # TODO
+    # Verificar se o usuário é staff
+    if user_info["user_type"] != "staff":
+        return flask.jsonify({
+            'status': StatusCodes['unauthorized'],
+            'errors': "Apenas staff pode apagar estudantes",
+            'results': None
+        })
+
+    try:
+        conn = db_connection()
+        conn.autocommit = False  
+        cur = conn.cursor()
+
+        # Verificar se o estudante existe
+        cur.execute("SELECT 1 FROM student_financial_account WHERE person_id = %s", (student_id,))
+        if not cur.fetchone():
+            return flask.jsonify({
+                'status': StatusCodes['api_error'],
+                'errors': 'Estudante não encontrado',
+                'results': None
+            })
+
+        # Verificar se o estudante tem matrículas ativas
+        cur.execute("""
+            SELECT 1 FROM enrollment 
+            WHERE student_id = %s AND status = TRUE
+            LIMIT 1
+        """, (student_id,))
+        if cur.fetchone():
+            cur.execute("""
+                DELETE FROM enrollment 
+                WHERE student_id = %s AND status = TRUE
+                """, (student_id,))
+
+       
+        # Primeiro remover das tabelas dependentes
+        cur.execute("""
+                    SELECT student_id FROM student_extra_activities
+                    WHERE student_id = %s
+                """, (student_id,))
+        if cur.fetchone():
+            cur.execute("""
+                DELETE FROM student_extra_activities 
+                WHERE student_id = %s
+            """, (student_id,))
+
+        cur.execute("""
+                    SELECT student_id FROM student_class
+                    WHERE student_id = %s
+            """, (student_id,))
+        if cur.fetchone():
+            cur.execute("""
+                DELETE FROM student_class 
+                WHERE student_id = %s
+            """, (student_id,))
+
+        cur.execute("""
+                    SELECT student_id FROM student_course
+                    WHERE student_id = %s
+            """, (student_id,))
+        if cur.fetchone():
+            cur.execute("""
+                DELETE FROM student_course 
+                WHERE student_id = %s
+            """, (student_id,))
+
+        cur.execute("""
+                    SELECT student_id FROM student_degree_program
+                    WHERE student_id = %s
+            """, (student_id,))
+        if cur.fetchone():
+            cur.execute("""
+                DELETE FROM student_degree_program 
+                WHERE student_id = %s
+            """, (student_id,))
+
+    
+        cur.execute("""
+                    SELECT student_id FROM payments
+                    WHERE student_id = %s
+            """, (student_id,))
+        if cur.fetchone():
+            cur.execute("""
+                DELETE FROM payments 
+                WHERE student_id = %s
+            """, (student_id,))
+            
+        cur.execute("""
+                    SELECT student_id FROM payments_extra_activities
+                    WHERE student_id = %s
+            """, (student_id,))
+        if cur.fetchone():
+            cur.execute("""
+                DELETE FROM payments_extra_activities 
+                WHERE student_id = %s
+            """, (student_id,))
+            
+        cur.execute("""
+                    SELECT student_id FROM grade_log
+                    WHERE student_id = %s
+            """, (student_id,))
+        if cur.fetchone():
+            cur.execute("""
+                DELETE FROM grade_log 
+                WHERE student_id = %s
+            """, (student_id,))
+        
+        cur.execute("""
+                    SELECT student_id FROM evaluation
+                    WHERE student_id = %s
+            """, (student_id,))
+        if cur.fetchone():
+            cur.execute("""
+                DELETE FROM evaluation 
+                WHERE student_id = %s
+            """, (student_id,))
+            
+            
+        # Remover da tabela de conta financeira
+        cur.execute("""
+            DELETE FROM student_financial_account 
+            WHERE person_id = %s
+        """, (student_id,))
+
+        # Finalmente remover da tabela person
+        cur.execute("""
+            DELETE FROM person 
+            WHERE id = %s
+            RETURNING id, name
+        """, (student_id,))
+
+        deleted_student = cur.fetchone()
+        if not deleted_student:
+            conn.rollback()
+            return flask.jsonify({
+                'status': StatusCodes['internal_error'],
+                'errors': 'Erro ao apagar estudante',
+                'results': None
+            })
+
+        conn.commit()
+
+        return flask.jsonify({
+            'status': StatusCodes['success'],
+            'errors': None,
+            'results': {
+                'student_id': deleted_student[0],
+                'student_name': deleted_student[1],
+                'message': 'Estudante apagado com sucesso'
+            }
+        })
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return flask.jsonify({
+            'status': StatusCodes['internal_error'],
+            'errors': str(e),
+            'results': None
+        })
+    finally:
+        if conn:
+            conn.close()
 
 ##########################################################
 ## UTIL FUNCTIONS

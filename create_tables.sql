@@ -206,11 +206,11 @@ INSERT INTO person (cc, name, birth_date, email, username, password, district, s
 INSERT INTO staff (role, person_id) VALUES ('Admin', 1);
 
 -- === Instrutores (Person + Instructor + Coordinator) ===
--- Não esquecer de encriptar a password
+-- pw1,pw2,pw3
 INSERT INTO person (cc, name, birth_date, email, username, password, district, staff_person_id) VALUES
-('812385869', 'Ana Costa', '1980-05-12', 'ana.costa@dei.uc.pt', 'ana_costa', 'pw1', 'Lisboa', 1),
-('283472732', 'Carlos Silva', '1975-11-30', 'carlos.silva@dei.uc.pt', 'carlos_silva', 'pw2', 'Porto', 1),
-('012395345', 'Marta Ribeiro', '1983-09-18', 'marta.ribeiro@dei.uc.pt', 'marta_ribeiro', 'pw3', 'Coimbra', 1);
+('812385869', 'Ana Costa', '1980-05-12', 'ana.costa@dei.uc.pt', 'ana_costa', '$2b$12$C8v0Kyxl.IGkoH4iUHu08uPVWN/1PL19MyNdLwQ91bCn.gtOBASfy', 'Lisboa', 1),
+('283472732', 'Carlos Silva', '1975-11-30', 'carlos.silva@dei.uc.pt', 'carlos_silva', '$2b$12$B2ygSbhEi2kAUTRHkXIMs.TAlIOuuc4l4cdC0V/uGiO20aB4L/wBy', 'Porto', 1),
+('012395345', 'Marta Ribeiro', '1983-09-18', 'marta.ribeiro@dei.uc.pt', 'marta_ribeiro', '$2b$12$NrNy1xeeGy92sSG5bqHNBOyqFm5sOhrrBnN1bcc/yhJZtv7H3cGxy', 'Coimbra', 1);
 
 INSERT INTO instructor (person_id, func_number) VALUES
 (2, '1992039039'),
@@ -266,6 +266,18 @@ INSERT INTO extra_activities (name, tax, slots) VALUES
 ('Workshop de Python', 50.0, 20),
 ('Seminário de IA', 30.0, 15),
 ('Visita a Data Center', 20.0, 10);
+
+-- ==== Periodos de Avaliação ====
+INSERT INTO evaluation_period (name, evaluation_date, edition_id) VALUES
+('Spring', '2024-06-15', 1),
+('Fall', '2024-12-15', 2);
+
+-- === Contas Financeiras ===
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id) VALUES
+('20240002', 800.0, 1, 2), -- Ana Costa
+('20240003', 600.0, 1, 3); -- Carlos Silva
+('20240004', 500.0, 1, 4); -- Marta Ribeiro
+
 
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk1 FOREIGN KEY (staff_person_id) REFERENCES staff(person_id);
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk2 FOREIGN KEY (person_id) REFERENCES person(id);
