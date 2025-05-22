@@ -243,7 +243,7 @@ def register_student(user_info):
         cur.execute("""
             INSERT INTO student_financial_account (person_id, student_number, balance, staff_person_id)
             VALUES (%s, %s, %s, %s)
-        """, (person_id, student_number, 0.0, staff_id))
+        """, (person_id, student_number, 4000.0, staff_id))
 
         conn.commit() #Commits the transaction
 
@@ -641,14 +641,13 @@ def enroll_activity(activity_id,user_info):
         
         # Buscar a transação gerada para retornar ao usuário
         cur.execute("""
-            SELECT pea.transaction_id
-            FROM payments_extra_activities pea
-            JOIN payments p ON pea.transaction_id = p.transaction_id
+            SELECT p.transaction_id 
+            FROM payments p
+            JOIN payments_extra_activities pea ON p.transaction_id = pea.transaction_id
             WHERE p.student_id = %s AND pea.extra_activities_id = %s
-            ORDER BY pea.transaction_id DESC
+            ORDER BY p.transaction_id DESC
             LIMIT 1
         """, (student_id, activity_id))
-        
         transaction_result = cur.fetchone()
         transaction_id = transaction_result[0] if transaction_result else None
         
@@ -705,7 +704,7 @@ def enroll_activity(activity_id,user_info):
 ##################################################################### Enroll in Course Edition ###########################################################
 @app.route('/dbproj/enroll_course_edition/<course_edition_id>', methods=['POST'])
 @token_required
-def enroll_course_edition(course_edition_id, user_info):
+def enroll_course_edition(course_edition_id, user_info): # TODO: Pre requisitos | escolher a edição aqui
     if user_info["user_type"] != "student":
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
     
@@ -931,18 +930,19 @@ def student_details(student_id, user_info):
 ############################################################# Get Degree Details ##############################################################
 @app.route('/dbproj/degree_details/<degree_id>', methods=['GET'])
 @token_required
-def degree_details(user_info,degree_id):
+def degree_details(user_info, degree_id):
     if user_info["user_type"] != "staff":
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
     if not degree_id:
         return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Degree ID is required', 'results': None})
 
-    
     try:
         conn = db_connection()
         cur = conn.cursor()
 
-        # Buscar todas as edições dos cursos associados ao degree
+        # TODO: resolver o facto de cada degree program só tem um couse code
+
+        # Única query que obtém todos os dados necessários
         cur.execute("""
             SELECT 
                 c.course_code,
@@ -950,53 +950,34 @@ def degree_details(user_info,degree_id):
                 e.edition_id,
                 e.ed_year,
                 e.capacity,
-                e.coordinator_id
+                e.coordinator_id,
+                (SELECT COUNT(*) FROM enrollment en WHERE en.edition_id = e.edition_id) AS enrolled_count,
+                (SELECT COUNT(DISTINCT gl.student_id) 
+                 FROM grade_log gl 
+                 WHERE gl.edition_id = e.edition_id AND gl.degree_program_id = dp.id AND gl.grade >= 10) AS approved_count,
+                ARRAY(
+                    SELECT DISTINCT cl.instructor_person_id 
+                    FROM class cl 
+                    WHERE cl.edition_id = e.edition_id
+                ) AS instructors
             FROM degree_program dp
             JOIN course c ON dp.course_code = c.course_code
             JOIN edition e ON e.course_code = c.course_code
             WHERE dp.id = %s
         """, (degree_id,))
-        editions = cur.fetchall()
 
         resultDegreeDetails = []
-
-        for edition in editions:
-            course_code, course_name, edition_id, year, capacity, coordinator_id = edition
-
-            # Número de alunos inscritos
-            cur.execute("""
-                SELECT COUNT(*) 
-                FROM enrollment
-                WHERE edition_id = %s
-            """, (edition_id,))
-            enrolled_count = cur.fetchone()[0]
-
-            # Número de alunos aprovados (nota >= 10)
-            cur.execute("""
-                SELECT COUNT(DISTINCT gl.student_id)
-                FROM grade_log gl
-                WHERE gl.edition_id = %s AND gl.degree_program_id = %s AND gl.grade >= 10
-            """, (edition_id, degree_id))
-            approved_count = cur.fetchone()[0]
-
-            # Instrutores envolvidos (turmas associadas à edição)
-            cur.execute("""
-                SELECT DISTINCT cl.instructor_person_id
-                FROM class cl
-                WHERE cl.edition_id = %s
-            """, (edition_id,))
-            instructors = [row[0] for row in cur.fetchall()]
-
+        for row in cur.fetchall():
             resultDegreeDetails.append({
-                'course_id': course_code,
-                'course_name': course_name,
-                'course_edition_id': edition_id,
-                'course_edition_year': year,
-                'capacity': capacity,
-                'enrolled_count': enrolled_count,
-                'approved_count': approved_count,
-                'coordinator_id': coordinator_id,
-                'instructors': instructors
+                'course_id': row[0],
+                'course_name': row[1],
+                'course_edition_id': row[2],
+                'course_edition_year': row[3],
+                'capacity': row[4],
+                'coordinator_id': row[5],
+                'enrolled_count': row[6],
+                'approved_count': row[7],
+                'instructors': row[8]
             })
 
         response = {'status': StatusCodes['success'], 'errors': None, 'results': resultDegreeDetails}

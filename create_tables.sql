@@ -275,7 +275,7 @@ INSERT INTO evaluation_period (name, evaluation_date, edition_id) VALUES
 -- === Contas Financeiras ===
 INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id) VALUES
 ('20240002', 800.0, 1, 2), -- Ana Costa
-('20240003', 600.0, 1, 3); -- Carlos Silva
+('20240003', 600.0, 1, 3), -- Carlos Silva
 ('20240004', 500.0, 1, 4); -- Marta Ribeiro
 
 
@@ -329,18 +329,29 @@ LANGUAGE plpgsql
 as $$
 DECLARE
     v_tax FLOAT;
+	v_slots INTEGER;
 	s_balance FLOAT;
 	v_transaction_id INTEGER;
 BEGIN
     -- Buscar o valor da taxa do degree program
-    SELECT tax INTO v_tax
+    SELECT tax, slots INTO v_tax, v_slots
     FROM degree_program
     WHERE id = NEW.degree_program_id;
 
+	-- Verificar se há vagas
+	IF v_slots <= 0 THEN
+		RAISE EXCEPTION 'Não há vagas disponíveis para este programa de grau';
+	END IF;
+
+	-- Verificar se o estudante tem saldo suficiente
 	SELECT balance INTO s_balance
-    FROM student_financial_account
-    WHERE person_id = NEW.student_id
-    FOR UPDATE;
+	FROM student_financial_account
+	WHERE person_id = NEW.student_id
+	FOR UPDATE;
+
+	IF s_balance < v_tax THEN
+		RAISE EXCEPTION 'Saldo insuficiente para se inscrever neste programa de grau';
+	END IF;
 
     -- Inserir na tabela payments
     INSERT INTO payments (amount, type, description, student_id)
@@ -360,6 +371,11 @@ BEGIN
     UPDATE student_financial_account
     SET balance = balance - v_tax
     WHERE person_id = NEW.student_id;
+
+	-- Atualizar o número de vagas disponíveis no degree program
+	UPDATE degree_program
+	SET slots = slots - 1
+	WHERE id = NEW.degree_program_id;
 
 
     RETURN NEW;
@@ -460,11 +476,11 @@ BEGIN
 
     -- Atualiza ou insere no grade_log
     INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
-    VALUES (ROUND(avg_grade), deg_prog_id, NEW.edition_id, NEW.student_id)
+    VALUES (ROUND(avg_grade), deg_prog_id, NEW.edition_id, NEW.student_id);
 
     RETURN NULL;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 CREATE TRIGGER trg_update_grade_log
 AFTER INSERT ON evaluation
