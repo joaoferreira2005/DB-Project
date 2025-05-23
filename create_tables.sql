@@ -85,16 +85,25 @@ CREATE TABLE buildings (
 	PRIMARY KEY(building_id)
 );
 
+-- REMOVIDO UM PARAMETRO (edition_id)
 CREATE TABLE enrollment (
 	enrollment_date			 DATE NOT NULL,
 	status				 BOOL NOT NULL,
 	degree_program_id			 INTEGER,
-	edition_id			 INTEGER,
 	student_id 					INTEGER,
 	staff_id			 INTEGER NOT NULL,
-	PRIMARY KEY(degree_program_id,edition_id,student_id)
+	PRIMARY KEY(degree_program_id,student_id)
 );
 
+-- CRIADA
+CREATE TABLE enrollment_course (
+	degree_program_id        INTEGER,
+	student_id				 INTEGER,
+	course_code				 INTEGER,
+	PRIMARY KEY(degree_program_id, student_id, course_code)
+);
+
+-- REMIDO UM PARAMETRO (course_code)
 CREATE TABLE degree_program (
 	id		 SERIAL,
 	type		 VARCHAR(512) NOT NULL,
@@ -102,8 +111,14 @@ CREATE TABLE degree_program (
 	tax		 FLOAT(8) NOT NULL,
 	credits		 SMALLINT NOT NULL,
 	slots		 INTEGER NOT NULL,
-	course_code INTEGER NOT NULL,
 	PRIMARY KEY(id)
+);
+
+-- CRIADA
+CREATE TABLE degree_program_course(
+	degree_program_id INTEGER,
+	course_code INTEGER,
+	PRIMARY KEY(degree_program_id, course_code)
 );
 
 CREATE TABLE staff (
@@ -228,10 +243,10 @@ INSERT INTO course (course_code, name, description) VALUES
 (1003, 'Tecnologia da Informática', 'Cadeira de introdução à informática e programação');
 
 -- === Degree Programs ===
-INSERT INTO degree_program (id, type, name, tax, credits, slots, course_code) VALUES
-(1, 'Licenciatura', 'Engenharia Informática', 697.5, 180, 60, 1001),
-(2, 'Mestrado', 'Engenharia de Redes', 850.0, 120, 30, 1002),
-(3, 'Licenciatura', 'Engenharia de Computadores', 697.5, 180, 50, 1003);
+INSERT INTO degree_program (id, type, name, tax, credits, slots) VALUES
+(1, 'Licenciatura', 'Engenharia Informática', 697.5, 180, 60),
+(2, 'Mestrado', 'Engenharia de Redes', 850.0, 120, 30),
+(3, 'Licenciatura', 'Engenharia de Computadores', 697.5, 180, 50);
 
 INSERT INTO edition (ed_year, ed_month, capacity, coordinator_id, course_code) VALUES
 (2024, 9, 30, 2, 1001),
@@ -277,6 +292,12 @@ INSERT INTO student_financial_account (student_number, balance, staff_person_id,
 ('20240002', 800.0, 1, 2), -- Ana Costa
 ('20240003', 600.0, 1, 3), -- Carlos Silva
 ('20240004', 500.0, 1, 4); -- Marta Ribeiro
+
+-- ==== Grade Log ====
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id) VALUES
+(18, 1, 1, 2), -- Ana Costa
+(16, 2, 2, 3), -- Carlos Silva
+(17, 3, 1, 4); -- Marta Ribeiro
 
 
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk1 FOREIGN KEY (staff_person_id) REFERENCES staff(person_id);
