@@ -999,34 +999,47 @@ def degree_details(user_info, degree_id):
 @token_required
 def top3_students():
 
-    resultTop3 = [ # TODO
-        {
-            'student_name': "John Doe",
-            'average_grade': 15.1,
-            'grades': [
-                {
-                    'course_edition_id': random.randint(1, 200),
-                    'course_edition_name': "some course",
-                    'grade': 15.1,
-                    'date': datetime.datetime(2024, 5, 12)
-                }
-            ],
-            'activities': [random.randint(1, 200), random.randint(1, 200)]
-        },
-        {
-            'student_name': "Jane Doe",
-            'average_grade': 16.3,
-            'grades': [
-                {
-                    'course_edition_id': random.randint(1, 200),
-                    'course_edition_name': "another course",
-                    'grade': 15.1,
-                    'date': datetime.datetime(2023, 5, 11)
-                }
-            ],
-            'activities': [random.randint(1, 200)]
-        }
-    ]
+    try:
+        conn = db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM top3_students();")
+        rows = cur.fetchall()
+
+        resultTop3 = []
+        for row in rows:
+            student_name, avg_grade, grades, activities = row
+
+            # Transformar as strings do array de grades em objetos (opcional, se vires útil)
+            parsed_grades = []
+            for g in grades:
+                try:
+                    parts = g.split(" - ")
+                    parsed_grades.append({
+                        "course_edition_id": int(parts[0]),
+                        "course_name": parts[1],
+                        "grade": int(parts[2]),
+                        "date": parts[3]
+                    })
+                except Exception as e:
+                    return flask.jsonify({
+                        'status': StatusCodes['internal_error'],
+                        'errors': f'Error parsing grades: {str(e)}',
+                        'results': None
+                    })
+
+            resultTop3.append({
+                "student_name": student_name,
+                "average_grade": round(avg_grade, 2),
+                "grades": parsed_grades,
+                "activities": activities or []
+            })
+
+        response = {'status': StatusCodes['success'], 'errors': None, 'results': resultTop3}
+        return flask.jsonify(response)
+
+    except Exception as e:
+        return flask.jsonify({'status': StatusCodes['api_error'], 'errors': str(e), 'results': None})
+    
 
     response = {'status': StatusCodes['success'], 'errors': None, 'results': resultTop3}
     return flask.jsonify(response)

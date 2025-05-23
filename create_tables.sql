@@ -487,3 +487,52 @@ AFTER INSERT ON evaluation
 FOR EACH ROW
 EXECUTE FUNCTION update_grade_log();
 
+CREATE OR REPLACE FUNCTION top3_students()
+-- Função para retorno dos 3 melhores estudantes
+RETURNS TABLE (
+    student_name TEXT,  -- Seleciona o nome do estudante
+    average_grade FLOAT, -- A média calculada recorrendo à função SQL AVG
+    grades TEXT[], -- Array de notas (dos courses inscritos) - armazena course_edition_id, course_name, data e nota obtida -> Único método que achei para fazer isto, não sei se é o ideal
+    activities TEXT[] --Array de atividades
+)
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        p.name,
+        ROUND(avg_data.avg_grade, 2),
+
+        -- Lista de cursos com notas
+        ARRAY(
+            SELECT 
+                ed.edition_id || ' - ' || c.name || 
+                ' - ' || e.grade || ' - ' || ep.evaluation_date
+            FROM evaluation e
+            JOIN edition ed ON ed.edition_id = e.edition_id
+            JOIN course c ON c.course_code = ed.course_code
+            JOIN evaluation_period ep ON ep.name = e.evaluation_period_name AND ep.edition_id = ed.edition_id
+            WHERE e.student_id = sfa.person_id AND ed.ed_year = 2024
+        ),
+
+        -- Lista de atividades
+        ARRAY(
+            SELECT ea.name
+            FROM student_extra_activities sea
+            JOIN extra_activities ea ON ea.id = sea.extra_activities_id
+            WHERE sea.student_id = sfa.person_id
+        )
+
+    FROM student_financial_account sfa
+    JOIN person p ON p.id = sfa.person_id
+
+    JOIN (
+        SELECT e.student_id, AVG(e.grade)::FLOAT AS avg_grade
+        FROM evaluation e
+        JOIN edition ed ON ed.edition_id = e.edition_id
+        WHERE ed.ed_year = 2024
+        GROUP BY e.student_id
+        ORDER BY avg_grade DESC
+        LIMIT 3
+    ) avg_data ON avg_data.student_id = sfa.person_id;
+END;
+$$ LANGUAGE plpgsql;
