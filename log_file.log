@@ -3893,3 +3893,86 @@ INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiO
 INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:18:06] "[35m[1mGET /dbproj/report HTTP/1.1[0m" 500 -
 INFO:logger:API stubs online: http://127.0.0.1:8080
 INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 168-746-625
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMTEyODh9.-1xBVVp3g6jje-1obASfv3lDcqdyuh1ldu-k8kJmSRc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:42:40] "GET /dbproj/degree_details/1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:42:47] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:42:50] "GET /dbproj/degree_details/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:43:06] "GET /dbproj/degree_details/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:43:15] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:43:39] "GET /dbproj/report HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:44:29] "GET /dbproj/top_by_district HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:45:34] "GET /dbproj/report HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:45:42] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 168-746-625
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:51:36] "GET /dbproj/degree_details/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:54:42] "GET /dbproj/degree_details/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:54:52] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:55:00] "[35m[1mGET /dbproj/report HTTP/1.1[0m" 500 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:55:09] "GET /dbproj/top_by_district HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 21:57:14] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:03:49] "[35m[1mGET /dbproj/report HTTP/1.1[0m" 500 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:05:36] "GET /dbproj/report HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:07:35] "[35m[1mGET /dbproj/report HTTP/1.1[0m" 500 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:08:05] "GET /dbproj/top_by_district HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:09:09] "GET /dbproj/report HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:09:15] "GET /dbproj/top_by_district HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:09:19] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:09:34] "GET /dbproj/degree_details/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:09:42] "GET /dbproj/degree_details/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:10:18] "GET /dbproj/degree_details/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:10:26] "GET /dbproj/student_details/15 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:10:33] "GET /dbproj/student_details/14 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\DEI\\BD\\Projeto\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 168-746-625
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:12:35] "GET /dbproj/degree_details/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:13:20] "GET /dbproj/degree_details/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:14:36] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:14:40] "GET /dbproj/top_by_district HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjY1Njd9.8FywoA5oCTcTrWXiM3ZTfLDowMB_AWrxe6g8681zI-0
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 22:14:43] "GET /dbproj/report HTTP/1.1" 200 -
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:logger:API stubs online: http://127.0.0.1:8080

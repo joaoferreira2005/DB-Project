@@ -1040,22 +1040,24 @@ def degree_details(user_info, degree_id):
                 e.ed_year,
                 e.capacity,
                 e.coordinator_id,
-                (SELECT COUNT(*) FROM enrollment en WHERE en.edition_id = e.edition_id) AS enrolled_count,
+                (SELECT COUNT(*) 
+                FROM enrollment en 
+                WHERE en.edition_id = e.edition_id) AS enrolled_count,
                 (SELECT COUNT(DISTINCT gl.student_id) 
                 FROM grade_log gl 
-                WHERE gl.edition_id = e.edition_id AND gl.degree_program_id = dp.id AND gl.grade >= 10) AS approved_count,
-                ARRAY(
-                    SELECT DISTINCT cl.instructor_person_id 
-                    FROM class cl 
-                    WHERE cl.edition_id = e.edition_id
-                ) AS instructors
+                WHERE gl.edition_id = e.edition_id 
+                AND gl.degree_program_id = dp.id 
+                AND gl.grade >= 10) AS approved_count,
+                cl.instructor_person_id
             FROM degree_program dp
             JOIN degree_program_course dpc ON dpc.degree_program_id = dp.id
             JOIN course c ON c.course_code = dpc.course_code
             JOIN edition_course ec ON ec.course_code = c.course_code
             JOIN edition e ON e.edition_id = ec.edition_id
+            LEFT JOIN class cl ON cl.edition_id = e.edition_id
             WHERE dp.id = %s
         """, (degree_id,))
+
 
         resultDegreeDetails = []
         for row in cur.fetchall():

@@ -888,6 +888,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
 CREATE OR REPLACE FUNCTION get_best_students_by_district()
 RETURNS TABLE (
     student_id INTEGER,
@@ -931,43 +932,52 @@ RETURNS TABLE (
 ) AS $$
 BEGIN
     RETURN QUERY
-	SELECT 
-		CONCAT(
-        EXTRACT(YEAR FROM ep.evaluation_date)::INT, '-', 
-        EXTRACT(MONTH FROM ep.evaluation_date)::INT
-    	) AS month,
-		ed.edition_id AS course_edition_id,
-		c.name AS course_edition_name,
-		COUNT(CASE WHEN ev.grade >= 10 THEN 1 ELSE NULL END) AS approved,
-		COUNT(*) AS evaluated
-	FROM evaluation ev
-	JOIN evaluation_period ep ON ep.name = ev.evaluation_period_name AND ep.edition_id = ev.edition_id
-	JOIN edition ed ON ed.edition_id = ev.edition_id
-	JOIN edition_course ec ON ec.edition_id = ed.edition_id
-	JOIN course c ON c.course_code = ec.course_code
-	WHERE ep.evaluation_date >= CURRENT_DATE - INTERVAL '12 months'
-	-- Extrai ano/mês uma vez e usa alias
-	GROUP BY 
-		EXTRACT(YEAR FROM ep.evaluation_date)::INT,
-		EXTRACT(MONTH FROM ep.evaluation_date)::INT,
-		ed.edition_id,
-		c.name
-	HAVING COUNT(CASE WHEN ev.grade >= 10 THEN 1 ELSE NULL END) = (
-		SELECT MAX(appr_count) FROM (
-			SELECT 
-				COUNT(CASE WHEN ev2.grade >= 10 THEN 1 ELSE NULL END) AS appr_count
-			FROM evaluation ev2
-			JOIN evaluation_period ep2 ON ep2.name = ev2.evaluation_period_name AND ep2.edition_id = ev2.edition_id
-			JOIN edition ed2 ON ed2.edition_id = ev2.edition_id
-			WHERE 
-				EXTRACT(YEAR FROM ep2.evaluation_date)::INT = EXTRACT(YEAR FROM ep.evaluation_date)::INT
-				AND EXTRACT(MONTH FROM ep2.evaluation_date)::INT = EXTRACT(MONTH FROM ep.evaluation_date)::INT
-			GROUP BY ed2.edition_id
-		) AS subquery
-	)
-	ORDER BY 
-		EXTRACT(YEAR FROM ep.evaluation_date)::INT, 
-		EXTRACT(MONTH FROM ep.evaluation_date)::INT;
+    SELECT 
+        CONCAT(base.year, '-', base.month_num) AS month,
+        base.edition_id,
+        base.course_name,
+        base.approved,
+        base.evaluated
+    FROM (
+        SELECT 
+            EXTRACT(YEAR FROM ep.evaluation_date)::INT AS year,
+            EXTRACT(MONTH FROM ep.evaluation_date)::INT AS month_num,
+            ed.edition_id AS edition_id,
+            c.name AS course_name,
+            COUNT(CASE WHEN ev.grade >= 10 THEN 1 ELSE NULL END) AS approved,
+            COUNT(*) AS evaluated
+        FROM evaluation ev
+        JOIN evaluation_period ep ON ep.name = ev.evaluation_period_name AND ep.edition_id = ev.edition_id
+        JOIN edition ed ON ed.edition_id = ev.edition_id
+        JOIN edition_course ec ON ec.edition_id = ed.edition_id
+        JOIN course c ON c.course_code = ec.course_code
+        WHERE ep.evaluation_date >= CURRENT_DATE - INTERVAL '12 months'
+        GROUP BY 
+            EXTRACT(YEAR FROM ep.evaluation_date)::INT,
+            EXTRACT(MONTH FROM ep.evaluation_date)::INT,
+            ed.edition_id,
+            c.name
+    ) AS base
+    WHERE base.approved = (
+        SELECT MAX(sub.approved) FROM (
+            SELECT 
+                EXTRACT(YEAR FROM ep2.evaluation_date)::INT AS year,
+                EXTRACT(MONTH FROM ep2.evaluation_date)::INT AS month_num,
+                ed2.edition_id,
+                COUNT(CASE WHEN ev2.grade >= 10 THEN 1 ELSE NULL END) AS approved
+            FROM evaluation ev2
+            JOIN evaluation_period ep2 ON ep2.name = ev2.evaluation_period_name AND ep2.edition_id = ev2.edition_id
+            JOIN edition ed2 ON ed2.edition_id = ev2.edition_id
+            WHERE ep2.evaluation_date >= CURRENT_DATE - INTERVAL '12 months'
+              AND EXTRACT(YEAR FROM ep2.evaluation_date)::INT = base.year
+              AND EXTRACT(MONTH FROM ep2.evaluation_date)::INT = base.month_num
+            GROUP BY ed2.edition_id,
+                     EXTRACT(YEAR FROM ep2.evaluation_date)::INT,
+                     EXTRACT(MONTH FROM ep2.evaluation_date)::INT
+        ) AS sub
+    )
+    ORDER BY base.year, base.month_num;
 END;
 $$ LANGUAGE plpgsql;
+
 
