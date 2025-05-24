@@ -28,6 +28,7 @@ import jwt # esta biblioteca é a pyjwt -> perguntar ao stor
 
 import bcrypt #nao sei se pudemos utilizar ou nao
 from decouple import config #pip install python-decouple
+import base64 #para encriptação de credenciais
 
 from functools import wraps
 
@@ -47,11 +48,11 @@ StatusCodes = {
 
 def db_connection():
     db = psycopg2.connect( #Use of decouple library to hide credentials in the .py file
-        user=config("DB_USER"),
-        password=config("DB_PASSWORD"),
-        host=config("DB_HOST"),
-        port=config("DB_PORT"),
-        database=config("DB_NAME")
+        user=decode_b64("DB_USER"),
+        password=decode_b64("DB_PASSWORD"),
+        host=decode_b64("DB_HOST"),
+        port=decode_b64("DB_PORT"),
+        database=decode_b64("DB_NAME")
     )
     return db
 
@@ -220,8 +221,16 @@ def register_student(user_info):
 
         if verifyEmail(email) == False or verifyCC(cc) == False or verifyStudentNumber(student_number) == False or name.isdigit() == True:
             #Made some verifications in every camp given by the used. In the future it may have
-            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid arguments. Try again', 'results': None})
-
+            if verifyEmail(email) == False:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid email format. Try again', 'results': None})
+            elif verifyCC(cc) == False:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid CC format. Try again', 'results': None})
+            elif verifyStudentNumber(student_number) == False:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid student number format. Try again', 'results': None})
+            elif name.isdigit() == True:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Name cannot be a number. Try again', 'results': None})
+        
+        #If all the verifications are ok, then it goes to the database
         #Inserts into the database the current values
         cur.execute("""
             INSERT INTO person (cc, name, birth_date, username, email, password, district, staff_person_id)
@@ -302,7 +311,14 @@ def register_staff(user_info):
         datetime.datetime.strptime(birth_date, '%Y-%m-%d')
 
         if verifyEmail(email) == False or verifyCC(cc) == False or name.isdigit() == True or verifyRoles(role) == False:
-            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid arguments. Try again', 'results': None})
+            if verifyEmail(email) == False:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid email format. Try again', 'results': None})
+            elif verifyCC(cc) == False:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid CC format. Try again', 'results': None})
+            elif name.isdigit() == True:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Name cannot be a number. Try again', 'results': None})
+            elif verifyRoles(role) == False:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid role. Try again', 'results': None})
 
         cur.execute("""
             INSERT INTO person (cc, name, birth_date, username, email, password, district, staff_person_id)
@@ -399,8 +415,16 @@ def register_instructor(user_info):
         datetime.datetime.strptime(birth_date, '%Y-%m-%d')
         responses = ["true", "false"]
         if verifyEmail(email) == False or verifyCC(cc) == False or name.isdigit() == True or verifyStudentNumber(func_number) == False:
-            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid arguments. Try again', 'results': None})
-
+            if verifyEmail(email) == False:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid email format. Try again', 'results': None})
+            elif verifyCC(cc) == False:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid CC format. Try again', 'results': None})
+            elif name.isdigit() == True:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Name cannot be a number. Try again', 'results': None})
+            elif verifyStudentNumber(func_number) == False:
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid func_number format. Try again', 'results': None})
+        
+        #If all the verifications are ok, then it goes to the database
         cur.execute("""
             INSERT INTO person (cc, name, birth_date, username, email, password, district, staff_person_id)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
@@ -462,7 +486,7 @@ def register_instructor(user_info):
 ##################################################################### Enroll in Degree Program ###########################################################
 @app.route('/dbproj/enroll_degree/<degree_id>', methods=['POST'])
 @token_required
-def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code de 101, degree ID 2 
+def enroll_degree(degree_id, user_info):
     print("User_info_person_id: ", user_info["person_id"])
     if user_info["user_type"] != "staff":
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
@@ -478,6 +502,8 @@ def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code 
         conn = db_connection()
         conn.autocommit = False
         cur = conn.cursor()
+
+        datetime.datetime.strptime(enrollment_date, '%Y-%m-%d') #Verifies if date is in the right format, otherwise returns exception
 
         # Verifica se o degree program existe
         cur.execute("SELECT 1 FROM degree_program WHERE id = %s", (degree_id,))
@@ -531,6 +557,10 @@ def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code 
             'errors': str(e),
             'results': None
         })
+    except ValueError: #In case of wrong date
+        if conn:
+            conn.rollback()
+        return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Invalid date. Try again', 'results': None})
 
     finally:
         if conn:
@@ -888,7 +918,16 @@ def submit_grades(course_edition_id, user_info): # TODO : TEM DE SER UM COORDINA
                 conn.rollback()
                 return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Each grade entry must have student_id and grade.', 'results': None})
             
-
+            if grade < 0 or grade > 20:
+                conn.rollback()
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Grade for student {student_id} must be between 0 and 20.', 'results': None})
+            
+            # Verifica se o aluno existe
+            cur.execute("SELECT 1 FROM student_financial_account WHERE person_id = %s", (student_id,))
+            if not cur.fetchone():
+                conn.rollback()
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Student with id {student_id} not found.', 'results': None})
+            
             # Verifica se o aluno está inscrito na edição
             cur.execute("SELECT 1 FROM enrollment WHERE edition_id = %s AND student_id = %s", (course_edition_id, student_id))
             if not cur.fetchone():
@@ -1055,7 +1094,9 @@ def degree_details(user_info, degree_id):
 @app.route('/dbproj/top3', methods=['GET'])
 @token_required
 def top3_students(user_info):
-
+    if user_info["user_type"] != "staff":
+        return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
+    
     try:
         conn = db_connection()
         cur = conn.cursor()
@@ -1069,20 +1110,13 @@ def top3_students(user_info):
             # Transformar as strings do array de grades em objetos (opcional, se vires útil)
             parsed_grades = []
             for g in grades:
-                try:
-                    parts = g.split(" - ")
-                    parsed_grades.append({
-                        "course_edition_id": int(parts[0]),
-                        "course_name": parts[1],
-                        "grade": int(parts[2]),
-                        "date": parts[3]
-                    })
-                except Exception as e:
-                    return flask.jsonify({
-                        'status': StatusCodes['internal_error'],
-                        'errors': f'Error parsing grades: {str(e)}',
-                        'results': None
-                    })
+                parts = g.split(" - ")
+                parsed_grades.append({
+                    "course_edition_id": int(parts[0]),
+                    "course_name": parts[1],
+                    "grade": int(parts[2]),
+                    "date": parts[3]
+                })
 
             resultTop3.append({
                 "student_name": student_name,
@@ -1111,36 +1145,17 @@ def top_by_district(user_info):
     try:
         conn = db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM top_students_by_district();")
+        cur.execute("SELECT * FROM get_best_students_by_district();")
         rows = cur.fetchall()
 
         resultTopByDistrict = []
         for row in rows: 
-            district, student_name, avg_grade, grades, activities = row
-
-            parsed_grades = []
-            for g in grades:
-                try:
-                    parts = g.split(" - ")
-                    parsed_grades.append({
-                        "course_edition_id": int(parts[0]),
-                        "course_name": parts[1],
-                        "grade": int(parts[2]),
-                        "date": parts[3]
-                    })
-                except Exception as e:
-                    return flask.jsonify({
-                        'status': StatusCodes['internal_error'],
-                        'errors': f'Error parsing grades: {str(e)}',
-                        'results': None
-                    })
+            student_id, district, avg_grade = row
 
             resultTopByDistrict.append({
+                "student_id": student_id,
                 "district": district,
-                "student_name": student_name,
-                "average_grade": round(avg_grade, 2),
-                "grades": parsed_grades,
-                "activities": activities or []
+                "average_grade": avg_grade,
             })
                 
         response = {'status': StatusCodes['success'], 'errors': None, 'results': resultTopByDistrict}
@@ -1158,27 +1173,48 @@ def top_by_district(user_info):
     
 @app.route('/dbproj/report', methods=['GET'])
 @token_required
-def monthly_report():
+def monthly_report(user_info):
+    if user_info["user_type"] != "staff":
+            return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
 
-    resultReport = [ # TODO
-        {
-            'month': "month_0",
-            'course_edition_id': random.randint(1, 200),
-            'course_edition_name': "Some course",
-            'approved': 20,
-            'evaluated': 23
-        },
-        {
-            'month': "month_1",
-            'course_edition_id': random.randint(1, 200),
-            'course_edition_name': "Another course",
-            'approved': 200,
-            'evaluated': 123
+    try:
+        conn = db_connection()
+        cur = conn.cursor()
+
+        cur.execute("SELECT * FROM generate_monthly_report();")
+        rows = cur.fetchall()
+
+        resultReport = []
+        for row in rows:
+            month, edition_id, course_name, approved, evaluated = row
+
+            resultReport.append({
+                "month": month,
+                "course_edition_id": edition_id,
+                "course_edition_name": course_name,
+                "approved": approved,
+                "evaluated": evaluated
+            })
+
+        response = {
+            'status': StatusCodes['success'],
+            'errors': None,
+            'results': resultReport
         }
-    ]
+        return flask.jsonify(response), 200
 
-    response = {'status': StatusCodes['success'], 'errors': None, 'results': resultReport}
-    return flask.jsonify(response)
+    except Exception as e:
+        return flask.jsonify({
+            'status': StatusCodes['api_error'],
+            'errors': str(e),
+            'results': None
+        }), 500
+
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 @app.route('/dbproj/delete_details/<student_id>', methods=['DELETE'])
 @token_required
@@ -1196,143 +1232,49 @@ def delete_student(student_id, user_info): # TODO
         conn.autocommit = False  
         cur = conn.cursor()
 
-        # Verificar se o estudante existe
-        cur.execute("SELECT 1 FROM student_financial_account WHERE person_id = %s", (student_id,))
+        # Verifica se o estudante existe
+        cur.execute("SELECT 1 FROM student_financial_account WHERE person_id = %s;", (student_id,))
         if not cur.fetchone():
             return flask.jsonify({
                 'status': StatusCodes['api_error'],
-                'errors': 'Estudante não encontrado',
+                'errors': "Student not found",
                 'results': None
-            })
+        })
 
-        # Verificar se o estudante tem matrículas ativas
-        cur.execute("""
-            SELECT 1 FROM enrollment 
-            WHERE student_id = %s AND status = TRUE
-            LIMIT 1
-        """, (student_id,))
-        if cur.fetchone():
-            cur.execute("""
-                DELETE FROM enrollment 
-                WHERE student_id = %s AND status = TRUE
-                """, (student_id,))
+         # Elimina em ordem segura
+        cur.execute("DELETE FROM evaluation WHERE student_id = %s;", (student_id,))
+        cur.execute("DELETE FROM grade_log WHERE student_id = %s;", (student_id,))
+        cur.execute("DELETE FROM student_class WHERE student_id = %s;", (student_id,))
+        cur.execute("DELETE FROM student_course WHERE student_id = %s;", (student_id,))
+        cur.execute("DELETE FROM student_extra_activities WHERE student_id = %s;", (student_id,))
+        cur.execute("DELETE FROM student_degree_program WHERE student_id = %s;", (student_id,))
+        cur.execute("DELETE FROM enrollment WHERE student_id = %s;", (student_id,))
 
-       
-        # Primeiro remover das tabelas dependentes
-        cur.execute("""
-                    SELECT student_id FROM student_extra_activities
-                    WHERE student_id = %s
-                """, (student_id,))
-        if cur.fetchone():
-            cur.execute("""
-                DELETE FROM student_extra_activities 
-                WHERE student_id = %s
-            """, (student_id,))
-
-        cur.execute("""
-                    SELECT student_id FROM student_class
-                    WHERE student_id = %s
-            """, (student_id,))
-        if cur.fetchone():
-            cur.execute("""
-                DELETE FROM student_class 
-                WHERE student_id = %s
-            """, (student_id,))
-
-        cur.execute("""
-                    SELECT student_id FROM student_course
-                    WHERE student_id = %s
-            """, (student_id,))
-        if cur.fetchone():
-            cur.execute("""
-                DELETE FROM student_course 
-                WHERE student_id = %s
-            """, (student_id,))
-
-        cur.execute("""
-                    SELECT student_id FROM student_degree_program
-                    WHERE student_id = %s
-            """, (student_id,))
-        if cur.fetchone():
-            cur.execute("""
-                DELETE FROM student_degree_program 
-                WHERE student_id = %s
-            """, (student_id,))
-
-    
-        cur.execute("""
-                    SELECT student_id FROM payments
-                    WHERE student_id = %s
-            """, (student_id,))
-        if cur.fetchone():
-            cur.execute("""
-                DELETE FROM payments 
-                WHERE student_id = %s
-            """, (student_id,))
-            
-        cur.execute("""
-                    SELECT student_id FROM payments_extra_activities
-                    WHERE student_id = %s
-            """, (student_id,))
-        if cur.fetchone():
-            cur.execute("""
-                DELETE FROM payments_extra_activities 
-                WHERE student_id = %s
-            """, (student_id,))
-            
-        cur.execute("""
-                    SELECT student_id FROM grade_log
-                    WHERE student_id = %s
-            """, (student_id,))
-        if cur.fetchone():
-            cur.execute("""
-                DELETE FROM grade_log 
-                WHERE student_id = %s
-            """, (student_id,))
+        # Apagar pagamentos relacionados
+        cur.execute("SELECT transaction_id FROM payments WHERE student_id = %s;", (student_id,))
+        rows = cur.fetchall()
         
-        cur.execute("""
-                    SELECT student_id FROM evaluation
-                    WHERE student_id = %s
-            """, (student_id,))
-        if cur.fetchone():
-            cur.execute("""
-                DELETE FROM evaluation 
-                WHERE student_id = %s
-            """, (student_id,))
-            
-            
-        # Remover da tabela de conta financeira
-        cur.execute("""
-            DELETE FROM student_financial_account 
-            WHERE person_id = %s
-        """, (student_id,))
+        transaction_ids = []
+        for row in rows:
+            transaction_ids.append(row[0])
+        
+        for tid in transaction_ids:
+            cur.execute("DELETE FROM payments_extra_activities WHERE transaction_id = %s;", (tid,))
+            cur.execute("DELETE FROM degree_program_payments WHERE transaction_id = %s;", (tid,))
+        cur.execute("DELETE FROM payments WHERE student_id = %s;", (student_id,))
 
-        # Finalmente remover da tabela person
-        cur.execute("""
-            DELETE FROM person 
-            WHERE id = %s
-            RETURNING id, name
-        """, (student_id,))
+        # Remover conta financeira
+        cur.execute("DELETE FROM student_financial_account WHERE person_id = %s;", (student_id,))
 
-        deleted_student = cur.fetchone()
-        if not deleted_student:
-            conn.rollback()
-            return flask.jsonify({
-                'status': StatusCodes['internal_error'],
-                'errors': 'Erro ao apagar estudante',
-                'results': None
-            })
+        # Remover pessoa
+        cur.execute("DELETE FROM person WHERE id = %s", (student_id,))
 
         conn.commit()
 
         return flask.jsonify({
             'status': StatusCodes['success'],
             'errors': None,
-            'results': {
-                'student_id': deleted_student[0],
-                'student_name': deleted_student[1],
-                'message': 'Estudante apagado com sucesso'
-            }
+            'results': None
         })
 
     except Exception as e:
@@ -1384,6 +1326,9 @@ def verifyInstructor(instructor_type, phd_student, investigator):
             if str(phd_student).lower() in responses:
                 return True
     return False
+
+def decode_b64(var_name):
+    return base64.b64decode(config(var_name)).decode('utf-8').strip()
 
 ##########################################################
 ## MAIN

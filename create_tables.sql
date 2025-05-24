@@ -303,6 +303,335 @@ INSERT INTO edition_course (edition_id, course_code) VALUES
 (1, 1001),
 (2, 1002);
 
+--- POPULAÇÃO A MAIS PARA TESTES ---
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (5, 'cc000000005', 'Estudante 5', '2000-12-09', 'estudante5@email.com', 'estudante5', '$2b$12$placeholder', 'Coimbra', 1);
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (6, 'cc000000006', 'Estudante 6', '2000-12-04', 'estudante6@email.com', 'estudante6', '$2b$12$placeholder', 'Lisboa', 1);
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (7, 'cc000000007', 'Estudante 7', '2000-10-14', 'estudante7@email.com', 'estudante7', '$2b$12$placeholder', 'Coimbra', 1);
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (8, 'cc000000008', 'Estudante 8', '2000-04-08', 'estudante8@email.com', 'estudante8', '$2b$12$placeholder', 'Coimbra', 1);
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (9, 'cc000000009', 'Estudante 9', '2000-09-07', 'estudante9@email.com', 'estudante9', '$2b$12$placeholder', 'Coimbra', 1);
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (10, 'cc000000010', 'Estudante 10', '2000-04-15', 'estudante10@email.com', 'estudante10', '$2b$12$placeholder', 'Aveiro', 1);
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (11, 'cc000000011', 'Estudante 11', '2000-03-23', 'estudante11@email.com', 'estudante11', '$2b$12$placeholder', 'Coimbra', 1);
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (12, 'cc000000012', 'Estudante 12', '2000-03-07', 'estudante12@email.com', 'estudante12', '$2b$12$placeholder', 'Porto', 1);
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (13, 'cc000000013', 'Estudante 13', '2000-02-03', 'estudante13@email.com', 'estudante13', '$2b$12$placeholder', 'Porto', 1);
+
+INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
+VALUES (14, 'cc000000014', 'Estudante 14', '2000-06-20', 'estudante14@email.com', 'estudante14', '$2b$12$placeholder', 'Porto', 1);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240005', 711.54, 1, 5);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240006', 395.91, 1, 6);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240007', 741.36, 1, 7);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240008', 225.43, 1, 8);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240009', 604.28, 1, 9);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240010', 772.82, 1, 10);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240011', 671.41, 1, 11);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240012', 538.09, 1, 12);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240013', 965.77, 1, 13);
+
+INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+VALUES ('20240014', 503.94, 1, 14);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (12, 'Spring', 1, 5, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (20, 'Fall', 2, 5, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (8, 'Spring', 1, 6, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (19, 'Fall', 2, 6, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (15, 'Spring', 1, 7, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (16, 'Fall', 2, 7, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (9, 'Spring', 1, 8, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (14, 'Fall', 2, 8, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (9, 'Spring', 1, 9, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (16, 'Fall', 2, 9, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (12, 'Spring', 1, 10, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (18, 'Fall', 2, 10, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (17, 'Spring', 1, 11, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (13, 'Fall', 2, 11, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (17, 'Spring', 1, 12, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (11, 'Fall', 2, 12, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (19, 'Spring', 1, 13, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (9, 'Fall', 2, 13, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (8, 'Spring', 1, 14, 3);
+
+INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
+VALUES (18, 'Fall', 2, 14, 3);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (5, 2);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-02-13', TRUE, 2, 1, 5);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (6, 2);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-03-12', FALSE, 2, 2, 6);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (7, 2);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-02-20', FALSE, 2, 1, 7);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (8, 3);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-03-15', TRUE, 3, 1, 8);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (9, 2);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-06-27', TRUE, 2, 2, 9);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (10, 1);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-06-13', TRUE, 1, 1, 10);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (11, 2);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-06-07', TRUE, 2, 1, 11);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (12, 3);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-08-05', FALSE, 3, 2, 12);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (13, 2);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-09-18', TRUE, 2, 1, 13);
+
+INSERT INTO student_degree_program (student_id, degree_program_id)
+VALUES (14, 2);
+
+INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+VALUES ('2024-06-08', FALSE, 2, 2, 14);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (5, 1);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (6, 1);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (6, 2);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (7, 1);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (7, 2);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (8, 1);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (9, 1);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (11, 2);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (12, 1);
+
+INSERT INTO student_class (student_id, class_id)
+VALUES (13, 2);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (5, 1);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (5, 3);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (6, 2);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (6, 3);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (7, 2);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (7, 3);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (8, 2);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (8, 3);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (9, 3);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (10, 1);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (11, 1);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (11, 2);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (11, 3);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (12, 1);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (12, 2);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (13, 1);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (13, 2);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (13, 3);
+
+INSERT INTO student_extra_activities (student_id, extra_activities_id)
+VALUES (14, 2);
+
+INSERT INTO payments (transaction_id, amount, type, description, student_id)
+VALUES (8187, 50.0, 'Activity Payment', 'Pagamento automático simulado', 6);
+
+INSERT INTO payments_extra_activities (transaction_id, extra_activities_id)
+VALUES (8187, 3);
+
+INSERT INTO payments (transaction_id, amount, type, description, student_id)
+VALUES (4553, 50.0, 'Activity Payment', 'Pagamento automático simulado', 7);
+
+INSERT INTO payments_extra_activities (transaction_id, extra_activities_id)
+VALUES (4553, 2);
+
+INSERT INTO payments (transaction_id, amount, type, description, student_id)
+VALUES (3840, 20.0, 'Activity Payment', 'Pagamento automático simulado', 11);
+
+INSERT INTO payments_extra_activities (transaction_id, extra_activities_id)
+VALUES (3840, 1);
+
+INSERT INTO payments (transaction_id, amount, type, description, student_id)
+VALUES (6537, 50.0, 'Activity Payment', 'Pagamento automático simulado', 13);
+
+INSERT INTO payments_extra_activities (transaction_id, extra_activities_id)
+VALUES (6537, 1);
+
+INSERT INTO payments (transaction_id, amount, type, description, student_id)
+VALUES (2581, 20.0, 'Activity Payment', 'Pagamento automático simulado', 14);
+
+INSERT INTO payments_extra_activities (transaction_id, extra_activities_id)
+VALUES (2581, 3);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (11, 1, 1, 5);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (11, 2, 1, 6);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (20, 2, 1, 7);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (18, 1, 2, 8);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (19, 3, 1, 9);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (17, 1, 2, 10);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (11, 1, 2, 11);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (16, 3, 1, 12);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (16, 2, 2, 13);
+
+INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+VALUES (10, 3, 2, 14);
+
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk1 FOREIGN KEY (staff_person_id) REFERENCES staff(person_id);
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk2 FOREIGN KEY (person_id) REFERENCES person(id);
 ALTER TABLE person ADD UNIQUE (cc, username);
@@ -574,5 +903,83 @@ BEGIN
         ORDER BY avg_grade DESC
         LIMIT 3
     ) avg_data ON avg_data.student_id = sfa.person_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION get_best_students_by_district()
+RETURNS TABLE (
+	-- Retorna:
+    student_id INTEGER, -- Id do estudante
+    district VARCHAR, -- Distrito do estudante
+    average_grade NUMERIC -- Média das notas do estudante calculada na função
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT DISTINCT ON (p.district)
+    sfa.person_id AS student_id,
+    p.district,
+    ROUND(avg_data.avg_grade) AS average_grade
+	FROM (
+		SELECT e.student_id, AVG(e.grade) AS avg_grade
+		FROM evaluation e
+		JOIN edition ed ON ed.edition_id = e.edition_id
+		WHERE ed.ed_year = 2024
+		GROUP BY e.student_id
+	) avg_data
+	JOIN student_financial_account sfa ON avg_data.student_id = sfa.person_id
+	JOIN person p ON sfa.person_id = p.id
+	ORDER BY p.district, avg_data.avg_grade DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION generate_monthly_report()
+RETURNS TABLE (
+    month TEXT,
+    course_edition_id INTEGER,
+    course_edition_name VARCHAR,
+    approved BIGINT,
+    evaluated BIGINT
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        es.year || '-' || LPAD(es.month::TEXT, 2, '0') AS month,
+        es.course_edition_id,
+        es.course_edition_name,
+        es.approved,
+        es.evaluated
+    FROM (
+        SELECT
+            EXTRACT(YEAR FROM ep.evaluation_date)::INT AS year,
+            EXTRACT(MONTH FROM ep.evaluation_date)::INT AS month,
+            ed.edition_id AS course_edition_id,
+            c.name AS course_edition_name,
+            COUNT(*) AS evaluated,
+            COUNT(CASE WHEN ev.grade >= 10 THEN 1 END) AS approved
+        FROM evaluation ev
+        JOIN evaluation_period ep ON ep.name = ev.evaluation_period_name AND ep.edition_id = ev.edition_id
+        JOIN edition ed ON ed.edition_id = ev.edition_id
+        JOIN edition_course ec ON ec.edition_id = ed.edition_id
+        JOIN course c ON c.course_code = ec.course_code
+        WHERE ep.evaluation_date >= CURRENT_DATE - INTERVAL '12 months'
+        GROUP BY
+            EXTRACT(YEAR FROM ep.evaluation_date),
+            EXTRACT(MONTH FROM ep.evaluation_date),
+            ed.edition_id,
+            c.name
+    ) es
+    WHERE es.approved = (
+        SELECT MAX(apr) FROM (
+            SELECT COUNT(CASE WHEN ev2.grade >= 10 THEN 1 END) AS apr
+            FROM evaluation ev2
+            JOIN evaluation_period ep2 ON ep2.name = ev2.evaluation_period_name AND ep2.edition_id = ep2.edition_id
+            JOIN edition ed2 ON ed2.edition_id = ev2.edition_id
+            WHERE EXTRACT(YEAR FROM ep2.evaluation_date) = es.year
+              AND EXTRACT(MONTH FROM ep2.evaluation_date) = es.month
+            GROUP BY ed2.edition_id
+        ) AS subquery
+    )
+    ORDER BY es.year, es.month;
 END;
 $$ LANGUAGE plpgsql;
