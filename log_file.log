@@ -3850,3 +3850,46 @@ INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiO
 INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:37:29] "GET /dbproj/degree_details/1 HTTP/1.1" 200 -
 INFO:logger:API stubs online: http://127.0.0.1:8080
 INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDE2ODl9.511ZZJ9UGP12FdgS3O7KTGgi56qktbzFx5vX7lnkhl4
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:10:15] "GET /dbproj/report HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:10:22] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:10:25] "[35m[1mGET /dbproj/report HTTP/1.1[0m" 500 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:12:01] "[35m[1mGET /dbproj/report HTTP/1.1[0m" 500 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:12:51] "[35m[1mGET /dbproj/report HTTP/1.1[0m" 500 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:13:39] "GET /dbproj/top_by_district HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:13:43] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:14:26] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:15:49] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:16:27] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:17:17] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:17:39] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 125-920-889
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:17:46] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMjEwMjJ9.qP-SGFxNoyZsxe4t_NOcEo5svWhFiVcpThyovVrJenY
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 20:18:06] "[35m[1mGET /dbproj/report HTTP/1.1[0m" 500 -
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:logger:API stubs online: http://127.0.0.1:8080

@@ -860,8 +860,6 @@ def enroll_course_edition(course_edition_id, user_info):
             cur.close()
         if conn:
             conn.close()
-        
-        
 
 ####################################################################### Submit Grades ####################################################################
 @app.route('/dbproj/submit_grades/<course_edition_id>', methods=['POST'])
@@ -1100,29 +1098,34 @@ def top3_students(user_info):
         cur.execute("SELECT * FROM top3_students();")
         rows = cur.fetchall()
 
-        resultTop3 = []
+        resultTop3 = {}
         for row in rows:
-            student_name, avg_grade, grades, activities = row
+            name, avg, edition_id, course_name, grade, eval_date, activity = row
 
-            # Transformar as strings do array de grades em objetos (opcional, se vires útil)
-            parsed_grades = []
-            for g in grades:
-                parts = g.split(" - ")
-                parsed_grades.append({
-                    "course_edition_id": int(parts[0]),
-                    "course_name": parts[1],
-                    "grade": int(parts[2]),
-                    "date": parts[3]
-                })
+            if name not in resultTop3:
+                resultTop3[name] = {
+                    "student_name": name,
+                    "average_grade": avg,
+                    "grades": [],
+                    "activities": []
+                }
 
-            resultTop3.append({
-                "student_name": student_name,
-                "average_grade": round(avg_grade, 2),
-                "grades": parsed_grades,
-                "activities": activities or []
-            })
+            if edition_id and course_name and grade is not None:
+                grade_entry = {
+                    "course_edition_id": edition_id,
+                    "course_edition_name": course_name,
+                    "grade": grade,
+                    "date": str(eval_date)
+                }
+                if grade_entry not in resultTop3[name]["grades"]:
+                    resultTop3[name]["grades"].append(grade_entry)
 
-        response = {'status': StatusCodes['success'], 'errors': None, 'results': resultTop3}
+            if activity and activity not in resultTop3[name]["activities"]:
+                resultTop3[name]["activities"].append(activity)
+            
+
+
+        response = {'status': StatusCodes['success'], 'errors': None, 'results': list(resultTop3.values())}
         return flask.jsonify(response)
 
     except Exception as e:

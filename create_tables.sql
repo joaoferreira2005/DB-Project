@@ -846,46 +846,27 @@ FOR EACH ROW
 EXECUTE FUNCTION update_grade_log();
 
 CREATE OR REPLACE FUNCTION top3_students()
--- Função para retorno dos 3 melhores estudantes
 RETURNS TABLE (
-    student_name VARCHAR,  -- Seleciona o nome do estudante
-    average_grade FLOAT, -- A média calculada recorrendo à função SQL AVG
-    grades TEXT[], -- Array de notas (dos courses inscritos) - armazena course_edition_id, course_name, data e nota obtida -> Único método que achei para fazer isto, não sei se é o ideal
-    activities VARCHAR[] --Array de atividades
+    student_name VARCHAR,
+    average_grade NUMERIC,
+    course_edition_id INTEGER,
+    course_name VARCHAR,
+    grade INTEGER,
+    evaluation_date DATE,
+    activity_name VARCHAR
 )
 AS $$
 BEGIN
     RETURN QUERY
     SELECT 
         p.name,
-        ROUND(avg_data.avg_grade),
-
-
-        -- Lista de cursos com notas
-        ARRAY(
-            SELECT 
-                ed.edition_id || ' - ' || c.name || 
-                ' - ' || e.grade || ' - ' || ep.evaluation_date
-            FROM evaluation e
-            JOIN edition ed ON ed.edition_id = e.edition_id
-            JOIN edition_course ec ON ec.edition_id = ed.edition_id
-			JOIN course c ON c.course_code = ec.course_code
-            JOIN evaluation_period ep ON ep.name = e.evaluation_period_name AND ep.edition_id = ed.edition_id
-            WHERE e.student_id = sfa.person_id AND ed.ed_year = 2024
-        ),
-
-        -- Lista de atividades
-        ARRAY(
-            SELECT ea.name
-            FROM student_extra_activities sea
-            JOIN extra_activities ea ON ea.id = sea.extra_activities_id
-            WHERE sea.student_id = sfa.person_id
-        )
-
-    FROM student_financial_account sfa
-    JOIN person p ON p.id = sfa.person_id
-
-    JOIN (
+        ROUND(avg_data.avg_grade::NUMERIC, 1),
+        ed.edition_id,
+        c.name,
+        e.grade,
+        ep.evaluation_date,
+        ea.name
+    FROM (
         SELECT e.student_id, AVG(e.grade)::FLOAT AS avg_grade
         FROM evaluation e
         JOIN edition ed ON ed.edition_id = e.edition_id
@@ -893,7 +874,16 @@ BEGIN
         GROUP BY e.student_id
         ORDER BY avg_grade DESC
         LIMIT 3
-    ) avg_data ON avg_data.student_id = sfa.person_id;
+    ) avg_data
+    JOIN student_financial_account sfa ON sfa.person_id = avg_data.student_id
+    JOIN person p ON p.id = sfa.person_id
+    LEFT JOIN evaluation e ON e.student_id = sfa.person_id
+    LEFT JOIN edition ed ON ed.edition_id = e.edition_id AND ed.ed_year = 2024
+    LEFT JOIN edition_course ec ON ec.edition_id = ed.edition_id
+    LEFT JOIN course c ON c.course_code = ec.course_code
+    LEFT JOIN evaluation_period ep ON ep.name = e.evaluation_period_name AND ep.edition_id = e.edition_id
+    LEFT JOIN student_extra_activities sea ON sea.student_id = sfa.person_id
+    LEFT JOIN extra_activities ea ON ea.id = sea.extra_activities_id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -941,35 +931,43 @@ RETURNS TABLE (
 ) AS $$
 BEGIN
     RETURN QUERY
-    SELECT 
-        CONCAT(EXTRACT(YEAR FROM ep.evaluation_date)::INT, '-', EXTRACT(MONTH FROM ep.evaluation_date)::INT) AS month,
-        ed.edition_id AS course_edition_id,
-        c.name AS course_edition_name,
-        COUNT(CASE WHEN ev.grade >= 10 THEN 1 ELSE NULL END) AS approved,
-        COUNT(*) AS evaluated
-    FROM evaluation ev
-    JOIN evaluation_period ep ON ep.name = ev.evaluation_period_name AND ep.edition_id = ev.edition_id
-    JOIN edition ed ON ed.edition_id = ev.edition_id
-    JOIN edition_course ec ON ec.edition_id = ed.edition_id
-    JOIN course c ON c.course_code = ec.course_code
-    WHERE ep.evaluation_date >= CURRENT_DATE - INTERVAL '12 months'
-    GROUP BY
-        EXTRACT(YEAR FROM ep.evaluation_date),
-        EXTRACT(MONTH FROM ep.evaluation_date),
-        ed.edition_id,
-        c.name
-    HAVING COUNT(CASE WHEN ev.grade >= 10 THEN 1 ELSE NULL END) = (
-        SELECT MAX(appr_count) FROM (
-            SELECT COUNT(CASE WHEN ev2.grade >= 10 THEN 1 ELSE NULL END) AS appr_count
-            FROM evaluation ev2
-            JOIN evaluation_period ep2 ON ep2.name = ev2.evaluation_period_name AND ep2.edition_id = ev2.edition_id
-            JOIN edition ed2 ON ed2.edition_id = ev2.edition_id
-            WHERE EXTRACT(YEAR FROM ep2.evaluation_date) = EXTRACT(YEAR FROM ep.evaluation_date)
-              AND EXTRACT(MONTH FROM ep2.evaluation_date) = EXTRACT(MONTH FROM ep.evaluation_date)
-            GROUP BY ed2.edition_id
-        ) AS subquery
-    )
-    ORDER BY EXTRACT(YEAR FROM ep.evaluation_date), EXTRACT(MONTH FROM ep.evaluation_date);
+	SELECT 
+		CONCAT(
+        EXTRACT(YEAR FROM ep.evaluation_date)::INT, '-', 
+        EXTRACT(MONTH FROM ep.evaluation_date)::INT
+    	) AS month,
+		ed.edition_id AS course_edition_id,
+		c.name AS course_edition_name,
+		COUNT(CASE WHEN ev.grade >= 10 THEN 1 ELSE NULL END) AS approved,
+		COUNT(*) AS evaluated
+	FROM evaluation ev
+	JOIN evaluation_period ep ON ep.name = ev.evaluation_period_name AND ep.edition_id = ev.edition_id
+	JOIN edition ed ON ed.edition_id = ev.edition_id
+	JOIN edition_course ec ON ec.edition_id = ed.edition_id
+	JOIN course c ON c.course_code = ec.course_code
+	WHERE ep.evaluation_date >= CURRENT_DATE - INTERVAL '12 months'
+	-- Extrai ano/mês uma vez e usa alias
+	GROUP BY 
+		EXTRACT(YEAR FROM ep.evaluation_date)::INT,
+		EXTRACT(MONTH FROM ep.evaluation_date)::INT,
+		ed.edition_id,
+		c.name
+	HAVING COUNT(CASE WHEN ev.grade >= 10 THEN 1 ELSE NULL END) = (
+		SELECT MAX(appr_count) FROM (
+			SELECT 
+				COUNT(CASE WHEN ev2.grade >= 10 THEN 1 ELSE NULL END) AS appr_count
+			FROM evaluation ev2
+			JOIN evaluation_period ep2 ON ep2.name = ev2.evaluation_period_name AND ep2.edition_id = ev2.edition_id
+			JOIN edition ed2 ON ed2.edition_id = ev2.edition_id
+			WHERE 
+				EXTRACT(YEAR FROM ep2.evaluation_date)::INT = EXTRACT(YEAR FROM ep.evaluation_date)::INT
+				AND EXTRACT(MONTH FROM ep2.evaluation_date)::INT = EXTRACT(MONTH FROM ep.evaluation_date)::INT
+			GROUP BY ed2.edition_id
+		) AS subquery
+	)
+	ORDER BY 
+		EXTRACT(YEAR FROM ep.evaluation_date)::INT, 
+		EXTRACT(MONTH FROM ep.evaluation_date)::INT;
 END;
 $$ LANGUAGE plpgsql;
 
