@@ -90,11 +90,10 @@ CREATE TABLE enrollment (
 	degree_program_id			 INTEGER,
 	edition_id			 INTEGER,
 	student_id 					INTEGER,
-	PRIMARY KEY(degree_program_id,student_id)
+	PRIMARY KEY(degree_program_id,student_id, edition_id)
 );
 
 
--- REMIDO UM PARAMETRO (course_code)
 CREATE TABLE degree_program (
 	id		 SERIAL,
 	type		 VARCHAR(512) NOT NULL,
@@ -105,7 +104,6 @@ CREATE TABLE degree_program (
 	PRIMARY KEY(id)
 );
 
--- CRIADA
 CREATE TABLE degree_program_course(
 	degree_program_id INTEGER,
 	course_code INTEGER,
@@ -201,11 +199,6 @@ CREATE TABLE student_class (
 	PRIMARY KEY(student_id,class_id)
 );
 
-CREATE TABLE student_course (
-	student_id INTEGER,
-	course_code			 INTEGER,
-	PRIMARY KEY(student_id,course_code)
-);
 
 CREATE TABLE course_pre_requisite (
 	course_code	 INTEGER,
@@ -335,34 +328,34 @@ VALUES (13, 'cc000000013', 'Estudante 13', '2000-02-03', 'estudante13@email.com'
 INSERT INTO person (id, cc, name, birth_date, email, username, password, district, staff_person_id)
 VALUES (14, 'cc000000014', 'Estudante 14', '2000-06-20', 'estudante14@email.com', 'estudante14', '$2b$12$placeholder', 'Porto', 1);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
-VALUES ('20240005', 711.54, 1, 5);
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
+VALUES ('20240005', 5000.0, 1, 5);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
 VALUES ('20240006', 395.91, 1, 6);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
 VALUES ('20240007', 741.36, 1, 7);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
 VALUES ('20240008', 225.43, 1, 8);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
 VALUES ('20240009', 604.28, 1, 9);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
 VALUES ('20240010', 772.82, 1, 10);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
 VALUES ('20240011', 671.41, 1, 11);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
 VALUES ('20240012', 538.09, 1, 12);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
 VALUES ('20240013', 965.77, 1, 13);
 
-INSERT INTO student_financial_account (student_number, 10000.0, staff_person_id, person_id)
+INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id)
 VALUES ('20240014', 503.94, 1, 14);
 
 INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
@@ -671,8 +664,6 @@ ALTER TABLE student_extra_activities ADD CONSTRAINT student_extra_activities_fk1
 ALTER TABLE student_extra_activities ADD CONSTRAINT student_extra_activities_fk2 FOREIGN KEY (extra_activities_id) REFERENCES extra_activities(id);
 ALTER TABLE student_class ADD CONSTRAINT student_class_fk1 FOREIGN KEY (student_id) REFERENCES student_financial_account(person_id);
 ALTER TABLE student_class ADD CONSTRAINT student_class_fk2 FOREIGN KEY (class_id) REFERENCES class(class_id);
-ALTER TABLE student_course ADD CONSTRAINT student_course_fk1 FOREIGN KEY (student_id) REFERENCES student_financial_account(person_id);
-ALTER TABLE student_course ADD CONSTRAINT student_course_fk2 FOREIGN KEY (course_code) REFERENCES course(course_code);
 ALTER TABLE course_pre_requisite ADD CONSTRAINT course_pre_requisite_fk1 FOREIGN KEY (course_code) REFERENCES course(course_code);
 ALTER TABLE course_pre_requisite ADD CONSTRAINT course_pre_requisite_fk2 FOREIGN KEY (course_code_prerequisite) REFERENCES course(course_code);
 
@@ -688,7 +679,7 @@ BEGIN
     -- Buscar o valor da taxa do degree program
     SELECT tax, slots INTO v_tax, v_slots
     FROM degree_program
-    WHERE id = NEW.degree_program_id;
+    WHERE id = NEW.degree_program_id FOR UPDATE;
 
 	-- Verificar se há vagas
 	IF v_slots <= 0 THEN
@@ -815,7 +806,7 @@ DECLARE
     deg_prog_id INTEGER;
 	exists_grade INTEGER;
 BEGIN
-    -- Obter a média das notas do aluno nesta edição
+    -- Obter a média das notas do aluno
     SELECT AVG(e.grade)
     INTO avg_grade
     FROM evaluation e

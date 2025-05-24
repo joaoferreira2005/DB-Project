@@ -3639,3 +3639,214 @@ WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 125-920-889
 INFO:werkzeug: * Detected change in 'c:\\Users\\joaot\\Desktop\\Documentos\\Universidade\\2_Ano\\2_Semestre\\BD\\Projeto\\python\\demo-api.py', reloading
 INFO:werkzeug: * Restarting with stat
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 168-746-625
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:19:19] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:19:50] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\DEI\\BD\\Projeto\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 168-746-625
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:22:36] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:24:02] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:25:22] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:25:39] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:25:47] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:25:49] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:25:51] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:25:53] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:25:55] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:25:57] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:25:59] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:26:07] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:26:09] "POST /dbproj/register/student HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:32:45] "POST /dbproj/register/staff HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:34:16] "POST /dbproj/register/staff HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\DEI\\BD\\Projeto\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 168-746-625
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:36:42] "POST /dbproj/register/instructor HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:36:55] "POST /dbproj/register/instructor HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:41:10] "POST /dbproj/enroll_degree/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:41:18] "POST /dbproj/enroll_degree/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:42:59] "POST /dbproj/enroll_degree/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:43:19] "POST /dbproj/enroll_degree/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:44:31] "POST /dbproj/enroll_degree/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:45:15] "POST /dbproj/enroll_degree/5 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDM3NTZ9.gk9EtcA2vt1Y867N9LBZBUAce0ZNfDKr1YzYVtW3Mzc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:45:19] "POST /dbproj/enroll_degree/3 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:49:09] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:49:42] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNTM4Mn0.owpm4rhZeb7jBNw4lMfk0ir_-u8XbyRaB92anGpyRFs
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 15:52:21] "POST /dbproj/enroll_activity/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNTM4Mn0.owpm4rhZeb7jBNw4lMfk0ir_-u8XbyRaB92anGpyRFs
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:00:21] "POST /dbproj/enroll_course_edition/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNTM4Mn0.owpm4rhZeb7jBNw4lMfk0ir_-u8XbyRaB92anGpyRFs
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:00:28] "POST /dbproj/enroll_course_edition/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNTM4Mn0.owpm4rhZeb7jBNw4lMfk0ir_-u8XbyRaB92anGpyRFs
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:00:54] "POST /dbproj/enroll_course_edition/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNTM4Mn0.owpm4rhZeb7jBNw4lMfk0ir_-u8XbyRaB92anGpyRFs
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:05:07] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:05:41] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjIsInVzZXJuYW1lIjoiYW5hX2Nvc3RhIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNjM0MX0.galL0bPph5aHYLdg7jR51jPbywEFR_SAuM6whA154yc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:05:49] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:06:27] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNjM4N30.pT1PqVC4_clpdxxc0n-h7Q_Cp8Q75Qn7kDdjIKWTIsA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:06:30] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNjM4N30.pT1PqVC4_clpdxxc0n-h7Q_Cp8Q75Qn7kDdjIKWTIsA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:07:06] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\DEI\\BD\\Projeto\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 168-746-625
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNjM4N30.pT1PqVC4_clpdxxc0n-h7Q_Cp8Q75Qn7kDdjIKWTIsA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:09:32] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNjM4N30.pT1PqVC4_clpdxxc0n-h7Q_Cp8Q75Qn7kDdjIKWTIsA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:09:47] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNjM4N30.pT1PqVC4_clpdxxc0n-h7Q_Cp8Q75Qn7kDdjIKWTIsA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:09:51] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNjM4N30.pT1PqVC4_clpdxxc0n-h7Q_Cp8Q75Qn7kDdjIKWTIsA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:09:55] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNjM4N30.pT1PqVC4_clpdxxc0n-h7Q_Cp8Q75Qn7kDdjIKWTIsA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:10:01] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNjM4N30.pT1PqVC4_clpdxxc0n-h7Q_Cp8Q75Qn7kDdjIKWTIsA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:10:20] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNjM4N30.pT1PqVC4_clpdxxc0n-h7Q_Cp8Q75Qn7kDdjIKWTIsA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:14:17] "POST /dbproj/register/staff HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:14:40] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDY4ODB9.88-9pydKXUdNPTKwLp1KZFHoEeDYfC8b_9Fr1xqf-pc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:14:45] "POST /dbproj/register/staff HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDY4ODB9.88-9pydKXUdNPTKwLp1KZFHoEeDYfC8b_9Fr1xqf-pc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:14:59] "POST /dbproj/register/staff HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDY4ODB9.88-9pydKXUdNPTKwLp1KZFHoEeDYfC8b_9Fr1xqf-pc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:16:47] "GET /dbproj/student_details/15 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:17:32] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:17:38] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:17:44] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:17:50] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNzA3MH0.sFqv2XD1JB5DC5HnozGVvPZhcLvJQ7nI04lZewbgn_8
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:18:05] "POST /dbproj/enroll_course_edition/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNzA3MH0.sFqv2XD1JB5DC5HnozGVvPZhcLvJQ7nI04lZewbgn_8
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:18:23] "POST /dbproj/enroll_course_edition/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNzA3MH0.sFqv2XD1JB5DC5HnozGVvPZhcLvJQ7nI04lZewbgn_8
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:18:27] "POST /dbproj/enroll_course_edition/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNzA3MH0.sFqv2XD1JB5DC5HnozGVvPZhcLvJQ7nI04lZewbgn_8
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:20:05] "POST /dbproj/enroll_course_edition/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNzA3MH0.sFqv2XD1JB5DC5HnozGVvPZhcLvJQ7nI04lZewbgn_8
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:27:12] "POST /dbproj/enroll_course_edition/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwNzA3MH0.sFqv2XD1JB5DC5HnozGVvPZhcLvJQ7nI04lZewbgn_8
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:29:14] "POST /dbproj/submit_grades/2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:29:32] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNzc3Mn0.6zJoc-0LjFptTVkNNwgPcakHZJtQwKUMN2AHdm1PuCA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:29:38] "POST /dbproj/submit_grades/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNzc3Mn0.6zJoc-0LjFptTVkNNwgPcakHZJtQwKUMN2AHdm1PuCA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:31:27] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNzc3Mn0.6zJoc-0LjFptTVkNNwgPcakHZJtQwKUMN2AHdm1PuCA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:31:34] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'c:\\DEI\\BD\\Projeto\\DB-Project\\python\\demo-api.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 168-746-625
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODEwNzc3Mn0.6zJoc-0LjFptTVkNNwgPcakHZJtQwKUMN2AHdm1PuCA
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:40:04] "GET /dbproj/student_details/15 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:40:43] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODEwODQ0M30.u9yq59ZSrPmwJl2y1dbssowvFR4f9G5VWrjhxcadJ8o
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:40:47] "GET /dbproj/student_details/15 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:42:19] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:42:26] "GET /dbproj/degree_details/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:44:06] "GET /dbproj/degree_details/4 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:44:11] "GET /dbproj/degree_details/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:45:30] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:46:26] "GET /dbproj/top_by_district HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:50:04] "GET /dbproj/degree_details/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:50:08] "GET /dbproj/degree_details/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:50:18] "GET /dbproj/degree_details/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:52:22] "GET /dbproj/degree_details/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:52:30] "GET /dbproj/degree_details/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:52:35] "GET /dbproj/degree_details/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:56:27] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:58:15] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:59:03] "GET /dbproj/top3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 16:59:38] "GET /dbproj/report HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:11:52] "POST /dbproj/enroll_degree/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:14:45] "POST /dbproj/enroll_degree/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:15:39] "POST /dbproj/enroll_degree/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:15:47] "POST /dbproj/enroll_degree/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:15:54] "POST /dbproj/enroll_degree/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:16:01] "POST /dbproj/enroll_degree/3 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMDg1Mzl9.LYqXKiH5EfJBH1j3N0s6W7WcOsMiX-mVDuiHrKHvlAQ
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:17:41] "POST /dbproj/enroll_degree/2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:19:26] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODExMDc2Nn0.4N7m2STW2IeTAFcOYN45XnvxIE08PudrU_1oGSNfls8
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:19:35] "POST /dbproj/enroll_activity/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODExMDc2Nn0.4N7m2STW2IeTAFcOYN45XnvxIE08PudrU_1oGSNfls8
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:19:40] "POST /dbproj/enroll_activity/2 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjE1LCJ1c2VybmFtZSI6Impvc2VfbWFudWVsIiwidXNlcl90eXBlIjoic3R1ZGVudCIsImV4cCI6MTc0ODExMDc2Nn0.4N7m2STW2IeTAFcOYN45XnvxIE08PudrU_1oGSNfls8
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:20:30] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:22:32] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:22:38] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODExMDk1OH0.41q_Z7O23TdcvpQkCsfi9NvGL3Q--2jfj7OY_ztt270
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:22:47] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODExMDk1OH0.41q_Z7O23TdcvpQkCsfi9NvGL3Q--2jfj7OY_ztt270
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:25:09] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODExMDk1OH0.41q_Z7O23TdcvpQkCsfi9NvGL3Q--2jfj7OY_ztt270
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:25:38] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjMsInVzZXJuYW1lIjoiY2FybG9zX3NpbHZhIiwidXNlcl90eXBlIjoiaW5zdHJ1Y3RvciIsImV4cCI6MTc0ODExMDk1OH0.41q_Z7O23TdcvpQkCsfi9NvGL3Q--2jfj7OY_ztt270
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:26:37] "POST /dbproj/submit_grades/1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:28:08] "PUT /dbproj/user HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMTEyODh9.-1xBVVp3g6jje-1obASfv3lDcqdyuh1ldu-k8kJmSRc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:28:29] "DELETE /dbproj/delete_details/6 HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMTEyODh9.-1xBVVp3g6jje-1obASfv3lDcqdyuh1ldu-k8kJmSRc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:37:15] "GET /dbproj/report HTTP/1.1" 200 -
+INFO:logger:token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb25faWQiOjEsInVzZXJuYW1lIjoiam9hb2ZlcnJlaXJhIiwidXNlcl90eXBlIjoic3RhZmYiLCJleHAiOjE3NDgxMTEyODh9.-1xBVVp3g6jje-1obASfv3lDcqdyuh1ldu-k8kJmSRc
+INFO:werkzeug:127.0.0.1 - - [24/May/2025 17:37:29] "GET /dbproj/degree_details/1 HTTP/1.1" 200 -
+INFO:logger:API stubs online: http://127.0.0.1:8080
+INFO:logger:API stubs online: http://127.0.0.1:8080

@@ -296,7 +296,6 @@ def register_staff(user_info):
     district = str(data.get('district'))
     staff_id = user_info['person_id']
     role = str(data.get('role'))
-    print(staff_id)
     required = ["cc", "role", "name", "birth_date", "username", "email", "password", "district"]
     missing = [field for field in required if not data.get(field)]
     if missing:   
@@ -704,8 +703,6 @@ def enroll_course_edition(course_edition_id, user_info):
     data = flask.request.get_json()
     classes = data.get('classes', [])
 
-    if user_info["person_id"] != int(user_info["person_id"]): 
-        return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
     
     if not classes:
         return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'At least one class ID is required', 'results': None})
@@ -869,7 +866,7 @@ def enroll_course_edition(course_edition_id, user_info):
 ####################################################################### Submit Grades ####################################################################
 @app.route('/dbproj/submit_grades/<course_edition_id>', methods=['POST'])
 @token_required
-def submit_grades(course_edition_id, user_info): # TODO : TEM DE SER UM COORDINATOR
+def submit_grades(course_edition_id, user_info):
     
     if user_info["user_type"] != "instructor":
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
@@ -912,7 +909,8 @@ def submit_grades(course_edition_id, user_info): # TODO : TEM DE SER UM COORDINA
 
         # Inserir cada nota
         for entry in grades:
-            student_id, grade = entry
+            student_id = int(entry.get('student_id'))
+            grade = int(entry.get('grade'))
 
             if student_id is None or grade is None:
                 conn.rollback()
@@ -1034,7 +1032,6 @@ def degree_details(user_info, degree_id):
         conn = db_connection()
         cur = conn.cursor()
 
-        # TODO: resolver o facto de cada degree program só tem um couse code
 
         # Única query que obtém todos os dados necessários
         cur.execute("""
@@ -1218,7 +1215,7 @@ def monthly_report(user_info):
 
 @app.route('/dbproj/delete_details/<student_id>', methods=['DELETE'])
 @token_required
-def delete_student(student_id, user_info): # TODO
+def delete_student(student_id, user_info):
     # Verificar se o usuário é staff
     if user_info["user_type"] != "staff":
         return flask.jsonify({
