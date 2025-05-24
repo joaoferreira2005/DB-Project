@@ -43,7 +43,6 @@ CREATE TABLE edition (
 	ed_month					 INTEGER NOT NULL,
 	capacity					 INTEGER NOT NULL,
 	coordinator_id INTEGER NOT NULL,
-	course_code				 INTEGER NOT NULL,
 	PRIMARY KEY(edition_id)
 );
 
@@ -85,23 +84,15 @@ CREATE TABLE buildings (
 	PRIMARY KEY(building_id)
 );
 
--- REMOVIDO UM PARAMETRO (edition_id)
 CREATE TABLE enrollment (
 	enrollment_date			 DATE NOT NULL,
 	status				 BOOL NOT NULL,
 	degree_program_id			 INTEGER,
+	edition_id			 INTEGER,
 	student_id 					INTEGER,
-	staff_id			 INTEGER NOT NULL,
 	PRIMARY KEY(degree_program_id,student_id)
 );
 
--- CRIADA
-CREATE TABLE enrollment_course (
-	degree_program_id        INTEGER,
-	student_id				 INTEGER,
-	course_code				 INTEGER,
-	PRIMARY KEY(degree_program_id, student_id, course_code)
-);
 
 -- REMIDO UM PARAMETRO (course_code)
 CREATE TABLE degree_program (
@@ -125,6 +116,12 @@ CREATE TABLE staff (
 	role	 VARCHAR(512) NOT NULL,
 	person_id INTEGER,
 	PRIMARY KEY(person_id)
+);
+
+CREATE TABLE edition_course (
+	edition_id INTEGER,
+	course_code INTEGER,
+	PRIMARY KEY(edition_id,course_code)
 );
 
 CREATE TABLE extra_activities (
@@ -228,12 +225,9 @@ INSERT INTO person (cc, name, birth_date, email, username, password, district, s
 ('012395345', 'Marta Ribeiro', '1983-09-18', 'marta.ribeiro@dei.uc.pt', 'marta_ribeiro', '$2b$12$NrNy1xeeGy92sSG5bqHNBOyqFm5sOhrrBnN1bcc/yhJZtv7H3cGxy', 'Coimbra', 1);
 
 INSERT INTO instructor (person_id, func_number) VALUES
-(2, '1992039039'),
-(3, '2005928395'),
-(4, '2020000145');
+(3, '2005928395');
 
 INSERT INTO coordinator_instructor (investigation, instructor_person_id) VALUES
-(TRUE, 2),
 (FALSE, 3);
 
 -- === Cursos ===
@@ -248,9 +242,19 @@ INSERT INTO degree_program (id, type, name, tax, credits, slots) VALUES
 (2, 'Mestrado', 'Engenharia de Redes', 850.0, 120, 30),
 (3, 'Licenciatura', 'Engenharia de Computadores', 697.5, 180, 50);
 
-INSERT INTO edition (ed_year, ed_month, capacity, coordinator_id, course_code) VALUES
-(2024, 9, 30, 2, 1001),
-(2024, 9, 25, 3, 1002);
+
+-- === Associa as cadeiras aos degree programs === --
+INSERT INTO degree_program_course (degree_program_id, course_code) VALUES
+(1, 1001),
+(1, 1003),
+(2, 1002),
+(3, 1001),
+(3, 1002),
+(3, 1003);
+
+INSERT INTO edition (ed_year, ed_month, capacity, coordinator_id) VALUES
+(2024, 9, 30, 3),
+(2024, 9, 25, 3);
 
 -- === Edifícios ===
 INSERT INTO buildings (location, dep_name) VALUES
@@ -259,22 +263,19 @@ INSERT INTO buildings (location, dep_name) VALUES
 
 -- === Aulas (class) ===
 INSERT INTO class (type, instructor_person_id, edition_id) VALUES
-('T', 2, 1),  -- Teórica da edição 1 (Bases de Dados), Ana Costa
 ('PL', 3, 1), -- Prática da edição 1, Carlos Silva
 ('T', 3, 2);  -- Teórica da edição 2 (Redes), Carlos Silva
 
 -- === Horários (schedule) ===
 INSERT INTO schedule (start_time, duration, class_id) VALUES
 ('2024-09-15 09:00:00', 90, 1),
-('2024-09-16 14:00:00', 120, 2),
-('2024-09-17 10:00:00', 90, 3);
+('2024-09-16 14:00:00', 120, 2);
 
 -- === Salas ===
 -- Pode ser util adicionar o nome à sala, para ser tipo "A.5.1"
 INSERT INTO classroom (capacity, schedule_id, building_id) VALUES
 (40, 1, 1),  -- Bloco A
-(30, 2, 1),
-(60, 3, 2);  -- Bloco B
+(30, 2, 1);
 
 -- === Atividades Extra ===
 INSERT INTO extra_activities (name, tax, slots) VALUES
@@ -290,15 +291,17 @@ INSERT INTO evaluation_period (name, evaluation_date, edition_id) VALUES
 -- === Contas Financeiras ===
 INSERT INTO student_financial_account (student_number, balance, staff_person_id, person_id) VALUES
 ('20240002', 800.0, 1, 2), -- Ana Costa
-('20240003', 600.0, 1, 3), -- Carlos Silva
 ('20240004', 500.0, 1, 4); -- Marta Ribeiro
 
 -- ==== Grade Log ====
 INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id) VALUES
 (18, 1, 1, 2), -- Ana Costa
-(16, 2, 2, 3), -- Carlos Silva
 (17, 3, 1, 4); -- Marta Ribeiro
 
+-- === Associa cadeiras à edição === --
+INSERT INTO edition_course (edition_id, course_code) VALUES
+(1, 1001),
+(2, 1002);
 
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk1 FOREIGN KEY (staff_person_id) REFERENCES staff(person_id);
 ALTER TABLE student_financial_account ADD CONSTRAINT student_financial_account_fk2 FOREIGN KEY (person_id) REFERENCES person(id);
@@ -308,7 +311,6 @@ ALTER TABLE instructor ADD CONSTRAINT instructor_fk1 FOREIGN KEY (person_id) REF
 ALTER TABLE assistant_instructor ADD CONSTRAINT assistant_instructor_fk1 FOREIGN KEY (instructor_person_id) REFERENCES instructor(person_id);
 ALTER TABLE coordinator_instructor ADD CONSTRAINT coordinator_instructor_fk1 FOREIGN KEY (instructor_person_id) REFERENCES instructor(person_id);
 ALTER TABLE edition ADD CONSTRAINT edition_fk1 FOREIGN KEY (coordinator_id) REFERENCES coordinator_instructor(instructor_person_id);
-ALTER TABLE edition ADD CONSTRAINT edition_fk2 FOREIGN KEY (course_code) REFERENCES course(course_code);
 ALTER TABLE grade_log ADD CONSTRAINT grade_log_fk1 FOREIGN KEY (degree_program_id) REFERENCES degree_program(id);
 ALTER TABLE grade_log ADD CONSTRAINT grade_log_fk2 FOREIGN KEY (edition_id) REFERENCES edition(edition_id);
 ALTER TABLE grade_log ADD CONSTRAINT grade_log_fk3 FOREIGN KEY (student_id) REFERENCES student_financial_account(person_id);
@@ -319,8 +321,6 @@ ALTER TABLE classroom ADD CONSTRAINT classroom_fk2 FOREIGN KEY (building_id) REF
 ALTER TABLE enrollment ADD CONSTRAINT enrollment_fk1 FOREIGN KEY (degree_program_id) REFERENCES degree_program(id);
 ALTER TABLE enrollment ADD CONSTRAINT enrollment_fk2 FOREIGN KEY (edition_id) REFERENCES edition(edition_id);
 ALTER TABLE enrollment ADD CONSTRAINT enrollment_fk3 FOREIGN KEY (student_id) REFERENCES student_financial_account(person_id);
-ALTER TABLE enrollment ADD CONSTRAINT enrollment_fk4 FOREIGN KEY (staff_id) REFERENCES staff(person_id);
-ALTER TABLE degree_program ADD CONSTRAINT degree_program_fk1 FOREIGN KEY (course_code) REFERENCES course(course_code);
 ALTER TABLE staff ADD CONSTRAINT staff_fk1 FOREIGN KEY (person_id) REFERENCES person(id);
 ALTER TABLE payments ADD CONSTRAINT payments_fk1 FOREIGN KEY (student_id) REFERENCES student_financial_account(person_id);
 ALTER TABLE evaluation_period ADD CONSTRAINT evaluation_period_fk1 FOREIGN KEY (edition_id) REFERENCES edition(edition_id);
@@ -336,6 +336,8 @@ ALTER TABLE assistant_instructor_edition ADD CONSTRAINT assistant_instructor_edi
 ALTER TABLE assistant_instructor_edition ADD CONSTRAINT assistant_instructor_edition_fk2 FOREIGN KEY (edition_id) REFERENCES edition(edition_id);
 ALTER TABLE student_degree_program ADD CONSTRAINT student_degree_program_fk1 FOREIGN KEY (student_id) REFERENCES student_financial_account(person_id);
 ALTER TABLE student_degree_program ADD CONSTRAINT student_degree_program_fk2 FOREIGN KEY (degree_program_id) REFERENCES degree_program(id);
+ALTER TABLE edition_course ADD CONSTRAINT edition_course_fk1 FOREIGN KEY (edition_id) REFERENCES edition(edition_id);
+ALTER TABLE edition_course ADD CONSTRAINT edition_course_fk2 FOREIGN KEY (course_code) REFERENCES course(course_code);
 ALTER TABLE student_extra_activities ADD CONSTRAINT student_extra_activities_fk1 FOREIGN KEY (student_id) REFERENCES student_financial_account(person_id);
 ALTER TABLE student_extra_activities ADD CONSTRAINT student_extra_activities_fk2 FOREIGN KEY (extra_activities_id) REFERENCES extra_activities(id);
 ALTER TABLE student_class ADD CONSTRAINT student_class_fk1 FOREIGN KEY (student_id) REFERENCES student_financial_account(person_id);
@@ -482,6 +484,7 @@ AS $$
 DECLARE
     avg_grade FLOAT;
     deg_prog_id INTEGER;
+	exists_grade INTEGER;
 BEGIN
     -- Obter a média das notas do aluno nesta edição
     SELECT AVG(e.grade)
@@ -495,9 +498,23 @@ BEGIN
 	FROM student_degree_program sdp
 	WHERE sdp.student_id = NEW.student_id;
 
-    -- Atualiza ou insere no grade_log
-    INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
-    VALUES (ROUND(avg_grade), deg_prog_id, NEW.edition_id, NEW.student_id);
+    -- Verifica se já existe entrada para o estudante na edição e degree program
+	SELECT 1 INTO exists_grade
+	FROM grade_log
+	WHERE degree_program_id = deg_prog_id 
+	AND edition_id = NEW.edition_id 
+	AND student_id = NEW.student_id;
+
+	IF exists_grade = 1 THEN
+		-- Atualiza a nota
+		UPDATE grade_log
+		SET grade = ROUND(avg_grade)
+		WHERE degree_program_id = deg_prog_id AND edition_id = NEW.edition_id AND student_id = NEW.student_id;
+	ELSE
+		-- Insere nova nota
+		INSERT INTO grade_log (grade, degree_program_id, edition_id, student_id)
+		VALUES (ROUND(avg_grade), deg_prog_id, NEW.edition_id, NEW.student_id);
+	END IF;
 
     RETURN NULL;
 END;
@@ -511,17 +528,18 @@ EXECUTE FUNCTION update_grade_log();
 CREATE OR REPLACE FUNCTION top3_students()
 -- Função para retorno dos 3 melhores estudantes
 RETURNS TABLE (
-    student_name TEXT,  -- Seleciona o nome do estudante
+    student_name VARCHAR,  -- Seleciona o nome do estudante
     average_grade FLOAT, -- A média calculada recorrendo à função SQL AVG
     grades TEXT[], -- Array de notas (dos courses inscritos) - armazena course_edition_id, course_name, data e nota obtida -> Único método que achei para fazer isto, não sei se é o ideal
-    activities TEXT[] --Array de atividades
+    activities VARCHAR[] --Array de atividades
 )
 AS $$
 BEGIN
     RETURN QUERY
     SELECT 
         p.name,
-        ROUND(avg_data.avg_grade, 2),
+        ROUND(avg_data.avg_grade),
+
 
         -- Lista de cursos com notas
         ARRAY(
@@ -530,7 +548,8 @@ BEGIN
                 ' - ' || e.grade || ' - ' || ep.evaluation_date
             FROM evaluation e
             JOIN edition ed ON ed.edition_id = e.edition_id
-            JOIN course c ON c.course_code = ed.course_code
+            JOIN edition_course ec ON ec.edition_id = ed.edition_id
+			JOIN course c ON c.course_code = ec.course_code
             JOIN evaluation_period ep ON ep.name = e.evaluation_period_name AND ep.edition_id = ed.edition_id
             WHERE e.student_id = sfa.person_id AND ed.ed_year = 2024
         ),

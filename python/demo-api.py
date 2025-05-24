@@ -463,6 +463,7 @@ def register_instructor(user_info):
 @app.route('/dbproj/enroll_degree/<degree_id>', methods=['POST'])
 @token_required
 def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code de 101, degree ID 2 
+    print("User_info_person_id: ", user_info["person_id"])
     if user_info["user_type"] != "staff":
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
 
@@ -479,14 +480,14 @@ def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code 
         cur = conn.cursor()
 
         # Verifica se o degree program existe
-        cur.execute("SELECT course_code FROM degree_program WHERE id = %s", (degree_id,))
+        cur.execute("SELECT 1 FROM degree_program WHERE id = %s", (degree_id,))
         row = cur.fetchone()
         if not row:
             return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Degree program not found.', 'results': None})
 
         # Verifica se já está inscrito
         cur.execute("""
-            SELECT 1 FROM enrollment
+            SELECT 1 FROM student_degree_program
             WHERE degree_program_id = %s AND student_id = %s
         """, (degree_id, student_id))
         if cur.fetchone():
@@ -495,14 +496,9 @@ def enroll_degree(degree_id, user_info): # Ver isto, eu criei um curso com code 
         # Stores the student enrolled in the degree program
         cur.execute("""
             INSERT INTO student_degree_program (student_id, degree_program_id) 
-                    values (%s, %s)
-                    """, (student_id, degree_id))
-        
-        # Enroll student
-        cur.execute("""
-            INSERT INTO enrollment (enrollment_date, status, degree_program_id, student_id, staff_id)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (enrollment_date, True, degree_id, student_id, user_info['person_id']))
+            VALUES (%s, %s)
+        """, (student_id, degree_id))
+
 
         
         cur.execute("""
@@ -553,17 +549,6 @@ def enroll_activity(activity_id,user_info):
             'results': None
         })
     
-    data = flask.request.get_json()
-    student_id = str(data.get('student_id'))
-    
-    # Verificar se ambos os IDs foram fornecidos
-    if not student_id or not activity_id:
-        return flask.jsonify({
-            'status': StatusCodes['api_error'],
-            'errors': 'Both student_id and activity_id are required',
-            'results': None
-        })
-    
     try:
         conn = db_connection()
         conn.autocommit = False
@@ -597,7 +582,7 @@ def enroll_activity(activity_id,user_info):
         # Verificar se o estudante já está inscrito nesta atividade
         cur.execute(
             "SELECT * FROM student_extra_activities WHERE student_id = %s AND extra_activities_id = %s",
-            (student_id, activity_id)
+            (user_info['person_id'], activity_id)
         )
         existing_enrollment = cur.fetchone()
         
@@ -612,7 +597,7 @@ def enroll_activity(activity_id,user_info):
         # O trigger process_activity_enrollment será executado automaticamente aqui
         cur.execute(
             "INSERT INTO student_extra_activities (student_id, extra_activities_id) VALUES (%s, %s)",
-            (student_id, activity_id)
+            (user_info['person_id'], activity_id)
         )
         
         
@@ -624,7 +609,7 @@ def enroll_activity(activity_id,user_info):
             WHERE p.student_id = %s AND pea.extra_activities_id = %s
             ORDER BY p.transaction_id DESC
             LIMIT 1
-        """, (student_id, activity_id))
+        """, (user_info['person_id'], activity_id))
         transaction_result = cur.fetchone()
         transaction_id = transaction_result[0] if transaction_result else None
         
@@ -635,7 +620,7 @@ def enroll_activity(activity_id,user_info):
             'status': StatusCodes['success'],
             'errors': None,
             'results': {
-                'student_id': student_id,
+                'student_id': user_info['person_id'],
                 'activity_id': activity_id,
                 'transaction_id': transaction_id
             }
@@ -681,16 +666,15 @@ def enroll_activity(activity_id,user_info):
 ##################################################################### Enroll in Course Edition ###########################################################
 @app.route('/dbproj/enroll_course_edition/<course_edition_id>', methods=['POST'])
 @token_required
-def enroll_course_edition(course_edition_id, user_info): # TODO: Pre requisitos | escolher a edição aqui
+def enroll_course_edition(course_edition_id, user_info): 
     if user_info["user_type"] != "student":
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
     
 
     data = flask.request.get_json()
-    student_id = data.get('student_id')
     classes = data.get('classes', [])
 
-    if user_info["person_id"] != int(student_id): 
+    if user_info["person_id"] != int(user_info["person_id"]): 
         return flask.jsonify({'status': StatusCodes['unauthorized'], 'errors': "You don't have permissions to perform this act.", 'results': None})
     
     if not classes:
@@ -702,7 +686,12 @@ def enroll_course_edition(course_edition_id, user_info): # TODO: Pre requisitos 
         cur = conn.cursor()
 
         # Verifica se a edição existe
-        cur.execute("SELECT course_code, capacity FROM edition WHERE edition_id = %s", (course_edition_id,))
+        cur.execute("""
+            SELECT ec.course_code, ed.capacity
+            FROM edition ed
+            JOIN edition_course ec ON ec.edition_id = ed.edition_id
+            WHERE ed.edition_id = %s
+        """, (course_edition_id,))
         edition = cur.fetchone()
         if not edition:
             conn.rollback()
@@ -717,7 +706,7 @@ def enroll_course_edition(course_edition_id, user_info): # TODO: Pre requisitos 
             FROM student_degree_program sdp
             JOIN degree_program_course dpc ON sdp.degree_program_id = dpc.degree_program_id
             WHERE sdp.student_id = %s AND dpc.course_code = %s
-        """, (student_id, course_code))
+        """, (user_info["person_id"], course_code))
         result = cur.fetchone()
 
         if not result:
@@ -729,11 +718,43 @@ def enroll_course_edition(course_edition_id, user_info): # TODO: Pre requisitos 
         
         degree_program_id = result[0]
 
+        # Verifica pre requisitos do curso
+        cur.execute("""
+                    SELECT cpp.course_code_prerequisite
+                    FROM course_pre_requisite cpp
+                    WHERE  cpp.course_code = %s
+                    """, (course_code,))
+        prerequisites = cur.fetchall()
+
+        if prerequisites:
+            # Para cada pré-requisito, verificar se o aluno teve nota >= 10
+            for prereq in prerequisites:
+                prereq_code = prereq[0]
+
+                # Verifica se o estudante tem nota >= 10 em alguma edição do curso prerequisito
+                cur.execute("""
+                    SELECT 1
+                    FROM evaluation e
+                    JOIN edition ed ON ed.edition_id = e.edition_id
+                    JOIN edition_course ec ON ec.edition_id = ed.edition_id
+                    WHERE ec.course_code = %s
+                    AND e.student_id = %s
+                    AND e.grade >= 10
+                """, (prereq_code, user_info["person_id"]))
+
+                if not cur.fetchone():
+                    return flask.jsonify({
+                        'status': StatusCodes['api_error'],
+                        'errors': f'Student has not completed the prerequisite course {prereq_code} with a passing grade.',
+                        'results': None
+                    })
+
         # Verificar se o aluno já está inscrito nesse curso no programa
         cur.execute("""
-            SELECT 1 FROM enrollment_course
-            WHERE student_id = %s AND course_code = %s AND degree_program_id = %s
-        """, (student_id, course_code, degree_program_id))
+            SELECT 1 FROM enrollment
+            WHERE student_id = %s AND degree_program_id = %s AND edition_id = %s
+        """, (user_info["person_id"], degree_program_id, course_edition_id))
+
         if cur.fetchone():
             return flask.jsonify({
                 'status': StatusCodes['api_error'],
@@ -741,13 +762,14 @@ def enroll_course_edition(course_edition_id, user_info): # TODO: Pre requisitos 
                 'results': None
             })
 
-        # Verificar capacidade atual da edição
+        # Verificar capacidade atual da edição - desta forma para aproveitar o lock do for update
         cur.execute("""
-            SELECT COUNT(*) FROM student_course sc
-            JOIN enrollment_course ec ON sc.student_id = ec.student_id AND sc.course_code = ec.course_code
-            WHERE ec.course_code = %s
-        """, (course_code,))
-        enrolled_count = cur.fetchone()[0]
+            SELECT student_id FROM enrollment
+            WHERE edition_id = %s
+            FOR UPDATE
+        """, (course_edition_id,))
+        students = cur.fetchall()
+        enrolled_count = len(students)
 
         if enrolled_count >= edition_capacity:
             return flask.jsonify({
@@ -756,11 +778,11 @@ def enroll_course_edition(course_edition_id, user_info): # TODO: Pre requisitos 
                 'results': None
             })
         
-        # Inserir em enrollment_course
+        # Inscrição na edição
         cur.execute("""
-            INSERT INTO enrollment_course (degree_program_id, student_id, course_code)
-            VALUES (%s, %s, %s)
-        """, (degree_program_id, student_id, course_code))
+            INSERT INTO enrollment (enrollment_date, status, degree_program_id, edition_id, student_id)
+            VALUES (CURRENT_DATE, TRUE, %s, %s, %s)
+        """, (degree_program_id, course_edition_id, user_info["person_id"]))
 
 
         # Verifica cada turma indicada
@@ -771,49 +793,41 @@ def enroll_course_edition(course_edition_id, user_info): # TODO: Pre requisitos 
                 conn.rollback()
                 return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Class {class_id} does not belong to the specified edition.', 'results': None})
         
-        # Obter a capacidade da sala da turma
-        cur.execute("""
-            SELECT cr.capacity
-            FROM classroom cr
-            JOIN schedule s ON cr.schedule_id = s.id
-            WHERE s.class_id = %s
-        """, (class_id,))
-        classroom_row = cur.fetchone()
-        if not classroom_row:
-            conn.rollback()
-            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'No classroom assigned to class {class_id}.', 'results': None})
+            # Obter a capacidade da sala da turma
+            cur.execute("""
+                SELECT cr.capacity
+                FROM classroom cr
+                JOIN schedule s ON cr.schedule_id = s.id
+                WHERE s.class_id = %s
+                FOR UPDATE
+            """, (class_id,))
+            classroom_row = cur.fetchone()
+            if not classroom_row:
+                conn.rollback()
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'No classroom assigned to class {class_id}.', 'results': None})
 
-        classroom_capacity = classroom_row[0]
+            classroom_capacity = classroom_row[0]
 
-        # Contar número de alunos inscritos nesta turma
-        cur.execute("SELECT COUNT(*) FROM student_class WHERE class_id = %s", (class_id,))
-        enrolled_in_class = cur.fetchone()[0]
+            # Contar número de alunos inscritos nesta turma
+            cur.execute("SELECT COUNT(*) FROM student_class WHERE class_id = %s", (class_id,))
+            enrolled_in_class = cur.fetchone()[0]
 
-        if enrolled_in_class >= classroom_capacity:
-            conn.rollback()
-            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Class {class_id} is full.', 'results': None})
+            if enrolled_in_class >= classroom_capacity:
+                conn.rollback()
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Class {class_id} is full.', 'results': None})
         
-        # Inscrição nas turmas
-        for class_id in classes:
-            cur.execute("INSERT INTO student_class (student_id, class_id) VALUES (%s, %s)", (student_id, class_id))
+            cur.execute("INSERT INTO student_class (student_id, class_id) VALUES (%s, %s)", (user_info["person_id"], class_id))
 
-        # Garantir que o aluno está associado ao curso (student_course)
-        cur.execute("SELECT 1 FROM student_course WHERE student_id = %s AND course_code = %s", (student_id, course_code))
-        if not cur.fetchone():
-            cur.execute("INSERT INTO student_course (student_id, course_code) VALUES (%s, %s)", (student_id, course_code))
-        else:
-            conn.rollback()
-            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Student {student_id} is already enrolled in this course.', 'results': None})
-
-        response = {'status': StatusCodes['success'], 'errors': None}
+ 
         conn.commit()
+        response = {'status': StatusCodes['success'], 'errors': None}
         return flask.jsonify(response)
     
 
     except Exception as e:
         if conn:
             conn.rollback()
-        return flask.jsonify({'status': StatusCodes['server_error'], 'errors': str(e), 'results': None})
+        return flask.jsonify({'status': StatusCodes['internal_error'], 'errors': str(e), 'results': None})
     finally:
         if cur:
             cur.close()
@@ -843,49 +857,64 @@ def submit_grades(course_edition_id, user_info): # TODO : TEM DE SER UM COORDINA
         conn.autocommit = False
         cur = conn.cursor()
 
+        cur.execute("SELECT coordinator_id FROM edition WHERE edition_id = %s", (course_edition_id,))
+        row = cur.fetchone()
+        # Verifica se a edição existe
+        if not row:
+            conn.rollback()
+            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Course edition not found.', 'results': None})
+        
+        coordinator_id = row[0]
+
+        if user_info["person_id"] != coordinator_id:
+            conn.rollback()
+            return flask.jsonify({
+                'status': StatusCodes['unauthorized'],
+                'errors': "Only the coordinator of this edition can submit grades.",
+                'results': None
+        })
+
          # Verifica se o período existe para esta edição
         cur.execute("SELECT 1 FROM evaluation_period WHERE name = %s AND edition_id = %s", (period, course_edition_id))
         if not cur.fetchone():
             conn.rollback()
             return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Evaluation period "{period}" not found for this course edition.', 'results': None})
-        
-        # Obtém o coordenador associado à edição (para inserção na tabela evaluation)
-        cur.execute("SELECT coordinator_id FROM edition WHERE edition_id = %s", (course_edition_id,))
-        row = cur.fetchone()
-        if not row:
-            conn.rollback()
-            return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Course edition not found.', 'results': None})
-        coordinator_id = row[0]
 
-        
         # Inserir cada nota
         for entry in grades:
-            student_id = entry.get('student_id')
-            grade = entry.get('grade')
+            student_id, grade = entry
 
             if student_id is None or grade is None:
                 conn.rollback()
                 return flask.jsonify({'status': StatusCodes['api_error'], 'errors': 'Each grade entry must have student_id and grade.', 'results': None})
             
+
             # Verifica se o aluno está inscrito na edição
             cur.execute("SELECT 1 FROM enrollment WHERE edition_id = %s AND student_id = %s", (course_edition_id, student_id))
             if not cur.fetchone():
                 conn.rollback()
                 return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Student {student_id} is not enrolled in this course edition.', 'results': None})
-        
+
+            # Verifica se o aluno já tem nota neste periodo
+            cur.execute("SELECT 1 FROM evaluation WHERE evaluation_period_name = %s AND edition_id = %s AND student_id = %s", (period, course_edition_id, student_id))
+            if cur.fetchone():
+                conn.rollback()
+                return flask.jsonify({'status': StatusCodes['api_error'], 'errors': f'Grade already submitted for student {student_id}.', 'results': None})
+
             # Inserir nota
             cur.execute("""
                 INSERT INTO evaluation (grade, evaluation_period_name, edition_id, student_id, coordinator_id)
                 VALUES (%s, %s, %s, %s, %s)
             """, (grade, period, course_edition_id, student_id, coordinator_id))
-    
+
+        conn.commit()
         response = {'status': StatusCodes['success'], 'errors': None}
         return flask.jsonify(response)
 
     except Exception as e:
         if conn:
-            conn.rollback()
-        return flask.jsonify({'status': StatusCodes['server_error'], 'errors': str(e), 'results': None})
+            conn.rollback() 
+        return flask.jsonify({'status': StatusCodes['internal_error'], 'errors': str(e), 'results': None})
 
     finally:
         if cur:
@@ -897,9 +926,6 @@ def submit_grades(course_edition_id, user_info): # TODO : TEM DE SER UM COORDINA
 @app.route('/dbproj/student_details/<student_id>', methods=['GET'])
 @token_required
 def student_details(student_id, user_info):
-    
-    print(type(user_info["person_id"]))
-    print(user_info["user_type"])
         
     if user_info["person_id"] != int(student_id): 
         if user_info["user_type"] != "staff":
@@ -909,6 +935,15 @@ def student_details(student_id, user_info):
         conn = db_connection()
         cur = conn.cursor()
 
+        # Verifica se o estudante existe
+        cur.execute("SELECT 1 FROM student_financial_account WHERE person_id = %s", (student_id,))
+        if not cur.fetchone():
+            return flask.jsonify({
+                'status': StatusCodes['api_error'],
+                'errors': f'Student with id {student_id} not found.',
+                'results': None
+            })
+
         cur.execute("""
             SELECT
                 e.edition_id AS course_edition_id,
@@ -917,7 +952,8 @@ def student_details(student_id, user_info):
                 g.grade
             FROM grade_log g
             JOIN edition e ON g.edition_id = e.edition_id
-            JOIN course c ON e.course_code = c.course_code
+            JOIN edition_course ec ON ec.edition_id = e.edition_id
+            JOIN course c ON c.course_code = ec.course_code
             WHERE g.student_id = %s;
         """, (student_id,))
 
@@ -937,7 +973,7 @@ def student_details(student_id, user_info):
         return flask.jsonify(response)
 
     except Exception as e:
-        return flask.jsonify({'status': StatusCodes['server_error'], 'errors': str(e), 'results': None})
+        return flask.jsonify({'status': StatusCodes['internal_error'], 'errors': str(e), 'results': None})
 
     finally:
         if cur:
@@ -972,16 +1008,18 @@ def degree_details(user_info, degree_id):
                 e.coordinator_id,
                 (SELECT COUNT(*) FROM enrollment en WHERE en.edition_id = e.edition_id) AS enrolled_count,
                 (SELECT COUNT(DISTINCT gl.student_id) 
-                 FROM grade_log gl 
-                 WHERE gl.edition_id = e.edition_id AND gl.degree_program_id = dp.id AND gl.grade >= 10) AS approved_count,
+                FROM grade_log gl 
+                WHERE gl.edition_id = e.edition_id AND gl.degree_program_id = dp.id AND gl.grade >= 10) AS approved_count,
                 ARRAY(
                     SELECT DISTINCT cl.instructor_person_id 
                     FROM class cl 
                     WHERE cl.edition_id = e.edition_id
                 ) AS instructors
             FROM degree_program dp
-            JOIN course c ON dp.course_code = c.course_code
-            JOIN edition e ON e.course_code = c.course_code
+            JOIN degree_program_course dpc ON dpc.degree_program_id = dp.id
+            JOIN course c ON c.course_code = dpc.course_code
+            JOIN edition_course ec ON ec.course_code = c.course_code
+            JOIN edition e ON e.edition_id = ec.edition_id
             WHERE dp.id = %s
         """, (degree_id,))
 
@@ -1005,7 +1043,7 @@ def degree_details(user_info, degree_id):
     except Exception as e:
         if conn:
             conn.rollback()
-        return flask.jsonify({'status': StatusCodes['server_error'], 'errors': str(e), 'results': None})
+        return flask.jsonify({'status': StatusCodes['internal_error'], 'errors': str(e), 'results': None})
     finally:
         if cur:
             cur.close()
@@ -1016,7 +1054,7 @@ def degree_details(user_info, degree_id):
 ############################################################## Get Top 3 Students ##############################################################
 @app.route('/dbproj/top3', methods=['GET'])
 @token_required
-def top3_students():
+def top3_students(user_info):
 
     try:
         conn = db_connection()
