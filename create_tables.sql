@@ -900,27 +900,34 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION get_best_students_by_district()
 RETURNS TABLE (
-	-- Retorna:
-    student_id INTEGER, -- Id do estudante
-    district VARCHAR, -- Distrito do estudante
-    average_grade NUMERIC -- Média das notas do estudante calculada na função
+    student_id INTEGER,
+    district VARCHAR,
+    average_grade NUMERIC
 ) AS $$
 BEGIN
     RETURN QUERY
-    SELECT DISTINCT ON (p.district)
-    sfa.person_id AS student_id,
-    p.district,
-    ROUND(avg_data.avg_grade) AS average_grade
-	FROM (
-		SELECT e.student_id, AVG(e.grade) AS avg_grade
-		FROM evaluation e
-		JOIN edition ed ON ed.edition_id = e.edition_id
-		WHERE ed.ed_year = 2024
-		GROUP BY e.student_id
-	) avg_data
-	JOIN student_financial_account sfa ON avg_data.student_id = sfa.person_id
-	JOIN person p ON sfa.person_id = p.id
-	ORDER BY p.district, avg_data.avg_grade DESC;
+    SELECT 
+        sfa.person_id,
+        p.district,
+        ROUND((
+            SELECT AVG(e2.grade)
+            FROM evaluation e2
+            JOIN edition ed2 ON ed2.edition_id = e2.edition_id
+            WHERE e2.student_id = sfa.person_id AND ed2.ed_year = 2024
+        ), 0) AS average_grade
+    FROM student_financial_account sfa
+    JOIN person p ON sfa.person_id = p.id
+    WHERE sfa.person_id = (
+        SELECT e.student_id
+        FROM evaluation e
+        JOIN edition ed ON ed.edition_id = e.edition_id
+        JOIN student_financial_account sfa2 ON e.student_id = sfa2.person_id
+        JOIN person p2 ON sfa2.person_id = p2.id
+        WHERE ed.ed_year = 2024 AND p2.district = p.district
+        GROUP BY e.student_id
+        ORDER BY AVG(e.grade) DESC
+        LIMIT 1
+    );
 END;
 $$ LANGUAGE plpgsql;
 
@@ -935,7 +942,7 @@ RETURNS TABLE (
 BEGIN
     RETURN QUERY
     SELECT
-        es.year || '-' || LPAD(es.month::TEXT, 2, '0') AS month,
+        es.year || '-' || es.month AS month,
         es.course_edition_id,
         es.course_edition_name,
         es.approved,
@@ -964,7 +971,7 @@ BEGIN
         SELECT MAX(apr) FROM (
             SELECT COUNT(CASE WHEN ev2.grade >= 10 THEN 1 END) AS apr
             FROM evaluation ev2
-            JOIN evaluation_period ep2 ON ep2.name = ev2.evaluation_period_name AND ep2.edition_id = ep2.edition_id
+            JOIN evaluation_period ep2 ON ep2.name = ev2.evaluation_period_name AND ep2.edition_id = ev2.edition_id
             JOIN edition ed2 ON ed2.edition_id = ev2.edition_id
             WHERE EXTRACT(YEAR FROM ep2.evaluation_date) = es.year
               AND EXTRACT(MONTH FROM ep2.evaluation_date) = es.month
@@ -974,3 +981,4 @@ BEGIN
     ORDER BY es.year, es.month;
 END;
 $$ LANGUAGE plpgsql;
+
